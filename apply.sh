@@ -1,2 +1,4 @@
 #!/usr/bin/env sh
-nix build .#darwinConfigurations.philipp-macbook.fritz.box.system
+box=$1
+nix build .#darwinConfigurations.${box}.system
+./result/sw/bin/darwin-rebuild switch --flake .

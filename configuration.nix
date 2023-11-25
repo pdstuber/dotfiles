@@ -1,17 +1,10 @@
 { pkgs, lib, ... }:
 {
   # Nix configuration ------------------------------------------------------------------------------
-
-  nix.binaryCaches = [
-    "https://cache.nixos.org/"
-  ];
-  nix.binaryCachePublicKeys = [
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-  ];
-  nix.trustedUsers = [
+  nix.settings.trusted-users = [
     "@admin"
   ];
-  users.nix.configureBuildUsers = true;
+  nix.configureBuildUsers = true;
 
   # Enable experimental nix command and flakes
   # nix.package = pkgs.nixUnstable;
@@ -36,16 +29,12 @@
     terminal-notifier
   ];
 
-  # https://github.com/nix-community/home-manager/issues/423
-  environment.variables = {
-    TERMINFO_DIRS = "${pkgs.kitty.terminfo.outPath}/share/terminfo";
-  };
   programs.nix-index.enable = true;
 
   # Fonts
-  fonts.enableFontDir = true;
+  fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [
      recursive
-     (nerdfonts.override { fonts = [ "IBM Plex Mono" ]; })
+     (nerdfonts.override { fonts = [ "IBMPlexMono" ]; })
    ];
 }

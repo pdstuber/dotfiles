@@ -55,7 +55,7 @@
             # `home-manager` config
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pdstuber = import ./home.nix;            
+            home-manager.users.pdstuber = import ./boxes/form3/home.nix;            
           }
         ];
       };
@@ -71,7 +71,7 @@
             # `home-manager` config
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pdstuber = import ./home.nix;            
+            home-manager.users.pdstuber = import ./boxes/philipp-macbook/home.nix;            
           }
         ];
       };
