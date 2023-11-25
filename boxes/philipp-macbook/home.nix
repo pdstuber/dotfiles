@@ -2,7 +2,7 @@
 
 {
   home.stateVersion = "23.05";
-
+  home.homeDirectory = "/Users/pdstuber";
   home.packages = with pkgs; [
     # basics
     coreutils
@@ -18,5 +18,5 @@
       "url \"git@github.com:\"".insteadOf = "https://github.com/";
     };
     programs.gpg.enable = true;
-    programs.gpg.homedir = "/Users/pdstuber/.gnupg";
+    #programs.gpg.homedir = "/Users/pdstuber/.gnupg";
 }

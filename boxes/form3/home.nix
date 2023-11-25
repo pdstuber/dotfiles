@@ -2,13 +2,10 @@
 
 {
   home.stateVersion = "23.05";
-
   home.packages = with pkgs; [
-    # basics
     coreutils
     curl
     fish
-    # Dev stuff
     jq
   ];
   programs.git.userEmail = lib.mkForce "philipp.stuber@form3.tech";

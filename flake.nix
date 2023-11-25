@@ -42,13 +42,13 @@
     }; 
   in
   {
+
     darwinConfigurations = rec {
       "FORM3-PHILIPPSTUBER" = darwinSystem {
         system = "aarch64-darwin";
         modules = attrValues self.darwinModules ++ [ 
           # Main `nix-darwin` config
           ./configuration.nix
-          users.users.pdstuber.home = "/Users/philippstuber";
 
           # `home-manager` module
           home-manager.darwinModules.home-manager
@@ -66,18 +66,15 @@
         modules = attrValues self.darwinModules ++ [ 
           # Main `nix-darwin` config
           ./configuration.nix
-          
-          users.users.pdstuber.home = "/Users/pdstuber";
-          users.users.pdstuber.name = "pdstuber"
-
           # `home-manager` module
+          
           home-manager.darwinModules.home-manager
           {
             nixpkgs = nixpkgsConfig;
             # `home-manager` config
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.pdstuber = import ./boxes/philipp-macbook/home.nix;            
+            home-manager.users.pdstuber = import ./boxes/philipp-macbook/home.nix;           
           }
         ];
       };
