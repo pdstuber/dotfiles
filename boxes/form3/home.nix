@@ -1,11 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  home = {
-    username = "philippstuber";
-    homeDirectory = "/Users/philippstuber";
-  };
-
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [

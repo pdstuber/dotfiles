@@ -1,11 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  home = {
-    username = "pdstuber";
-    homeDirectory = "/Users/pdstuber";
-  };
-
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
