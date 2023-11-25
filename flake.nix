@@ -48,6 +48,10 @@
         modules = attrValues self.darwinModules ++ [ 
           # Main `nix-darwin` config
           ./configuration.nix
+          {
+            users.users.pdstuber.home = "/Users/philippstuber";
+          }
+
           # `home-manager` module
           home-manager.darwinModules.home-manager
           {
@@ -64,6 +68,9 @@
         modules = attrValues self.darwinModules ++ [ 
           # Main `nix-darwin` config
           ./configuration.nix
+          {
+            users.users.pdstuber.home = "/Users/pdstuber";
+          }
           # `home-manager` module
           home-manager.darwinModules.home-manager
           {
