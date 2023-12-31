@@ -1,1 +1,2 @@
-config/fish/extra.fish
+config/fish/conf.d
+.DS_Store

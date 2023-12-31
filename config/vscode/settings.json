@@ -59,5 +59,6 @@
         }
     ],
     "vim.smartRelativeLine": true,
-    "vim.highlightedyank.enable": true
+    "vim.highlightedyank.enable": true,
+    "workbench.colorTheme": "No Happiness in Colors Theme"
 }
