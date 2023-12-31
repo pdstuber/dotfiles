@@ -1,0 +1,63 @@
+{
+    "window.openFoldersInNewWindow": "on",
+    "go.lintTool": "golangci-lint",
+    "go.toolsManagement.autoUpdate": true,
+    "go.buildFlags": ["-tags=all"],
+    "go.testFlags": ["-tags=all"],
+    "gopls": {
+        "ui.semanticTokens": true,
+        "build.buildFlags": ["-tags=all"]
+    },
+    "diffEditor.maxComputationTime": 0,
+    "workbench.settings.applyToAllProfiles": [
+        "editor.fontFamily",
+        "editor.fontSize"
+    ],
+    "terminal.integrated.fontFamily": "MonoLisa",
+    "terminal.external.linuxExec": "kitty",
+    "terminal.external.osxExec": "kitty.app",
+    "githubPullRequests.pullBranch": "never",
+    "settingsSync.ignoredExtensions": [],
+    "editor.fontFamily": "MonoLisa",
+    "editor.fontSize": 12,
+    "editor.fontLigatures": "'dlig'",
+    "editor.rulers": [120],
+    "editor.suggest.insertMode": "insert",
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "git.openRepositoryInParentFolders": "never",
+    "vim.useSystemClipboard": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["g", "i"],
+            "commands": ["editor.action.peekImplementation"]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>", "d"],
+            "after": ["\"", "_", "d"]
+        },
+        {
+            "before": ["<leader>", "p"],
+            "after": ["\"", "_", "P"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<C-u>"],
+            "after": ["2", "0", "<C-y>", "2", "0", "k"]
+        },
+        {
+            "before": ["<C-d>"],
+            "after": ["2", "0", "<C-e>", "2", "0", "j"]
+        },
+        {
+            "before": ["<leader>", 0],
+            "commands": ["\"", "0", "p"]
+        }
+    ],
+    "vim.smartRelativeLine": true,
+    "vim.highlightedyank.enable": true
+}

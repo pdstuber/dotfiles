@@ -1,0 +1,74 @@
+[macros.bash]
+prefix = [ "bash", "-c" ]
+
+[macros.fish]
+prefix = [ "fish", "-c" ]
+
+[macros.install]
+prefix = [ "brew", "install" ]
+
+[tasks.default]
+deps = [ "fish", "fzf-fish", "kitty", "neovim-bin", "vscode" ]
+
+[tasks.fzf-deps]
+cmds = [ 
+    [ "@install", "bat" ],
+    [ "@install", "fd" ],
+    [ "@install", "fzf" ]
+]
+
+[tasks.kitty-bin]
+cmds = [
+    [ "@install", "kitty"]
+]
+
+[tasks.fish-bin]
+cmds = [ [ "@install", "fish" ] ]
+
+[tasks.starship-bin]
+cmds = [ [ "@install", "starship" ] ]
+
+[tasks.neovim-bin]
+cmds = [
+    [ "@install", "neovim" ]
+]
+
+[tasks.starship]
+deps = [ "starship-bin" ]
+links = [
+    [ ".config/starship.toml", "config/starship/starship.toml"]
+]
+
+[tasks.fisher]
+deps = [ "fish" ]
+cmds = [
+    [ "@fish", "curl --location https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" ]
+]
+
+[tasks.fzf-fish]
+deps = [ "fisher", "fzf-deps" ]
+cmds = [ [ "@fish", "fisher install PatrickF1/fzf.fish" ] ]
+
+[tasks.fish]
+deps = [ "fish-bin", "starship"]
+links = [
+    [ ".config/fish/config.fish", "config/fish/config.fish" ],
+    [ ".config/fish/conf.d", "config/fish/conf.d" ],
+    [ ".config/fish/functions", "config/fish/functions" ]
+]
+
+[tasks.kitty]
+deps = [ "kitty-bin" ]
+links = [
+    [ ".config/kitty/kitty.conf", "config/kitty/kitty.conf" ]
+]
+
+[tasks.vscode]
+accepts = [ [ "which", "code" ] ]
+cmds = [
+    [ "@fish", "cat $HM_SRC/config/vscode/extensions.txt | xargs -I {} -L 1 code --install-extension {} --force"]
+]
+links = [
+    [ "$HOME/Library/Application Support/Code/User/settings.json", "config/vscode/settings.json"],
+    [ "$HOME/Library/Application Support/Code/User/keybindings.json", "config/vscode/keybindings.json"]
+]
