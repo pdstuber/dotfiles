@@ -8,7 +8,7 @@ prefix = [ "fish", "-c" ]
 prefix = [ "brew", "install" ]
 
 [tasks.default]
-deps = [ "fish", "fzf-fish", "kitty", "neovim-bin", "vscode" ]
+deps = [ "fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode" ]
 
 [tasks.fzf-deps]
 cmds = [ 
@@ -71,4 +71,9 @@ cmds = [
 links = [
     [ "$HOME/Library/Application Support/Code/User/settings.json", "config/vscode/settings.json"],
     [ "$HOME/Library/Application Support/Code/User/keybindings.json", "config/vscode/keybindings.json"]
+]
+
+[tasks.fonts]
+cmds = [
+    [ "@fish", "cp -a $HM_SRC/config/fonts $HOME/Library/Fonts" ]
 ]
