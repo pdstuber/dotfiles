@@ -11,6 +11,7 @@ prefix = [ "brew", "install" ]
 deps = [ "fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode" ]
 
 [tasks.fzf-deps]
+rejects = [ [ "which", "bat"], ["which", "fd"], ["which", "fzf"] ]
 cmds = [ 
     [ "@install", "bat" ],
     [ "@install", "fd" ],
@@ -18,17 +19,21 @@ cmds = [
 ]
 
 [tasks.kitty-bin]
+rejects = [ [ "which", "kitty" ] ]
 cmds = [
     [ "@install", "kitty"]
 ]
 
 [tasks.fish-bin]
+rejects = [ [ "which", "fish" ] ]
 cmds = [ [ "@install", "fish" ] ]
 
 [tasks.starship-bin]
+rejects = [ [ "which ", "starship" ] ]
 cmds = [ [ "@install", "starship" ] ]
 
 [tasks.neovim-bin]
+rejects = [ [ "which ", "nvim" ] ]
 cmds = [
     [ "@install", "neovim" ]
 ]
@@ -39,14 +44,10 @@ links = [
     [ ".config/starship.toml", "config/starship/starship.toml"]
 ]
 
-[tasks.fisher]
-deps = [ "fish" ]
-cmds = [
-    [ "@fish", "curl --location https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" ]
-]
-
 [tasks.fzf-fish]
-deps = [ "fisher", "fzf-deps" ]
+accepts = [ [ "@fish", "fisher", "--version" ] ]
+rejects = [ [ "@fish", "fisher", "list", "\".*fzf.*\""] ]
+deps = [ "fzf-deps" ]
 cmds = [ [ "@fish", "fisher install PatrickF1/fzf.fish" ] ]
 
 [tasks.fish]
