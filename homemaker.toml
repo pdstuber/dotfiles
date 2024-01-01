@@ -1,79 +1,83 @@
 [macros.bash]
-prefix = [ "bash", "-c" ]
+prefix = ["bash", "-c"]
 
 [macros.fish]
-prefix = [ "fish", "-c" ]
+prefix = ["fish", "-c"]
 
 [macros.install]
-prefix = [ "brew", "install" ]
+prefix = ["brew", "install"]
 
 [tasks.default]
-deps = [ "fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode" ]
+deps = ["fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode"]
 
 [tasks.fzf-deps]
-cmds = [ 
-    [ "@install", "bat" ],
-    [ "@install", "fd" ],
-    [ "@install", "fzf" ]
-]
+cmds = [["@install", "bat"], ["@install", "fd"], ["@install", "fzf"]]
 
 [tasks.kitty-bin]
-rejects = [ [ "which", "kitty" ] ]
-cmds = [
-    [ "@install", "kitty"]
-]
+rejects = [["which", "kitty"]]
+cmds = [["@install", "kitty"]]
 
 [tasks.fish-bin]
-rejects = [ [ "which", "fish" ] ]
-cmds = [ [ "@install", "fish" ] ]
+rejects = [["which", "fish"]]
+cmds = [["@install", "fish"]]
 
 [tasks.starship-bin]
-rejects = [ [ "which ", "starship" ] ]
-cmds = [ [ "@install", "starship" ] ]
+rejects = [["which ", "starship"]]
+cmds = [["@install", "starship"]]
 
 [tasks.neovim-bin]
-rejects = [ [ "which ", "nvim" ] ]
-cmds = [
-    [ "@install", "neovim" ]
-]
+rejects = [["which ", "nvim"]]
+cmds = [["@install", "neovim"]]
 
 [tasks.starship]
-deps = [ "starship-bin" ]
-links = [
-    [ ".config/starship.toml", "config/starship/starship.toml"]
-]
+deps = ["starship-bin"]
+links = [[".config/starship.toml", "config/starship/starship.toml"]]
 
 [tasks.fzf-fish]
-accepts = [ [ "@fish", "fisher", "--version" ] ]
-rejects = [ [ "@fish", "fisher", "list", "\".*fzf.*\""] ]
-deps = [ "fzf-deps" ]
-cmds = [ [ "@fish", "fisher install PatrickF1/fzf.fish" ] ]
+accepts = [["@fish", "fisher", "--version"]]
+rejects = [["@fish", "fisher", "list", "\".*fzf.*\""]]
+deps = ["fzf-deps"]
+cmds = [["@fish", "fisher install PatrickF1/fzf.fish"]]
 
 [tasks.fish]
-deps = [ "fish-bin", "starship"]
+deps = ["fish-bin", "starship"]
 links = [
-    [ ".config/fish/config.fish", "config/fish/config.fish" ],
-    [ ".config/fish/conf.d", "config/fish/conf.d" ],
-    [ ".config/fish/functions", "config/fish/functions" ]
+  [
+    ".config/fish/config.fish",
+    "config/fish/config.fish",
+  ],
+  [
+    ".config/fish/conf.d",
+    "config/fish/conf.d",
+  ],
+  [
+    ".config/fish/functions",
+    "config/fish/functions",
+  ],
 ]
 
 [tasks.kitty]
-deps = [ "kitty-bin" ]
-links = [
-    [ ".config/kitty/kitty.conf", "config/kitty/kitty.conf" ]
-]
+deps = ["kitty-bin"]
+links = [[".config/kitty/kitty.conf", "config/kitty/kitty.conf"]]
 
 [tasks.vscode]
-accepts = [ [ "which", "code" ] ]
+accepts = [["which", "code"]]
 cmds = [
-    [ "@fish", "cat $HM_SRC/config/vscode/extensions.txt | xargs -I {} -L 1 code --install-extension {} --force"]
+  [
+    "@fish",
+    "cat $HM_SRC/config/vscode/extensions.txt | xargs -I {} -L 1 code --install-extension {} --force",
+  ],
 ]
 links = [
-    [ "$HOME/Library/Application Support/Code/User/settings.json", "config/vscode/settings.json"],
-    [ "$HOME/Library/Application Support/Code/User/keybindings.json", "config/vscode/keybindings.json"]
+  [
+    "$HOME/Library/Application Support/Code/User/settings.json",
+    "config/vscode/settings.json",
+  ],
+  [
+    "$HOME/Library/Application Support/Code/User/keybindings.json",
+    "config/vscode/keybindings.json",
+  ],
 ]
 
 [tasks.fonts]
-cmds = [
-    [ "@fish", "cp -a $HM_SRC/config/fonts $HOME/Library/Fonts" ]
-]
+cmds = [["@fish", "cp -a $HM_SRC/config/fonts $HOME/Library/Fonts"]]
