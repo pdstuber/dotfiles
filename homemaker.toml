@@ -11,7 +11,24 @@ prefix = ["brew", "install"]
 deps = ["fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode"]
 
 [tasks.fzf-deps]
-cmds = [["@install", "bat"], ["@install", "fd"], ["@install", "fzf"]]
+cmds = [
+  [
+    "@install",
+    "bat",
+  ],
+  [
+    "@install",
+    "fd",
+  ],
+  [
+    "@install",
+    "fzf",
+  ],
+  [
+    "@install",
+    "lsd",
+  ],
+]
 
 [tasks.kitty-bin]
 rejects = [["which", "kitty"]]
