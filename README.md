@@ -1,6 +1,6 @@
 # Philipp's dotfiles
 
-[![Build Status](https://github.com/pdstuber/dotfiles/actions/workflows/test.yaml/badge.svg)](https://github.com/pdstuber/dotfiles/actions/workflows/test.yaml)
+[![Build Status](https://github.com/pdstuber/dotfiles/actions/workflows/lint.yaml/badge.svg)](https://github.com/pdstuber/dotfiles/actions/workflows/lint.yaml)
 
 ## Install
 
@@ -9,9 +9,6 @@ git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 make
 ```
-
-> [!NOTE]\
-> For more information run `make help`
 
 ## Components
 
