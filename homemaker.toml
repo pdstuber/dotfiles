@@ -52,7 +52,6 @@ links = [[".config/starship.toml", "config/starship/starship.toml"]]
 
 [tasks.fzf-fish]
 accepts = [["@fish", "fisher", "--version"]]
-rejects = [["@fish", "fisher", "list", "\".*fzf.*\""]]
 deps = ["fzf-deps"]
 cmds = [["@fish", "fisher install PatrickF1/fzf.fish"]]
 
