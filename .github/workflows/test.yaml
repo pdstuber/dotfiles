@@ -1,4 +1,4 @@
-name: Test
+name: Lint
 on:
   push:
     branches:
@@ -7,9 +7,11 @@ on:
     branches:
       - main
 jobs:
-  test:
+  lint:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Test
-        run: make test
+      - name: TOML linter
+        uses: yisonPylkita/gh-action-toml-linter@0.1.3
+            
