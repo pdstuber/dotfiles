@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 brew install go
-go install foosoft.net/projects/homemaker@latest
+go install github.com/pdstuber/homemaker@v1.0.0
 homemaker --verbose homemaker.toml .
