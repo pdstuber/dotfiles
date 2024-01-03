@@ -8,7 +8,7 @@ prefix = ["fish", "-c"]
 prefix = ["brew", "install"]
 
 [macros.install__arch]
-prefix = ["sudo", "pacman", "--quiet", "--sync", "--noconfirm"]
+prefix = ["sudo", "pacman", "--sync", "--quiet", "--noconfirm"]
 
 [tasks.default]
 deps = [
