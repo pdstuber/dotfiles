@@ -8,7 +8,7 @@ prefix = ["fish", "-c"]
 prefix = ["brew", "install"]
 
 [macros.install__arch]
-prefix = ["sudo", "pacman", "--sync", "--quiet", "--noconfirm"]
+prefix = ["pamac", "install"]
 
 [tasks.default]
 deps = [
@@ -60,6 +60,10 @@ envs = [
     "FONTS_DIR",
     "$HOME/Library/Fonts",
   ],
+  [
+    "VSCODE_DIR",
+    "$HOME/Library/Application Support/Code/User"
+  ],
 ]
 
 [tasks.specific__osx]
@@ -72,67 +76,60 @@ cmds = [["@install", "${PACKAGE_NAME_XCLIP}"]]
 envs = [
   [
     "PACKAGE_NAME_BAT",
-    "extra/bat",
+    "bat",
   ],
   [
     "PACKAGE_NAME_FD",
-    "extra/fd",
+    "fd",
   ],
   [
     "PACKAGE_NAME_FZF",
-    "extra/fzf",
+    "fzf",
   ],
   [
     "PACKAGE_NAME_LSD",
-    "extra/lsd",
+    "lsd",
   ],
   [
     "PACKAGE_NAME_KITTY",
-    "extra/kitty",
+    "kitty",
   ],
   [
     "PACKAGE_NAME_FISH",
-    "extra/fish",
+    "fish",
   ],
   [
     "PACKAGE_NAME_STARSHIP",
-    "extra/starship",
+    "starship",
   ],
   [
     "PACKAGE_NAME_NEOVIM",
-    "extra/neovim",
+    "neovim",
   ],
   [
     "PACKAGE_NAME_XCLIP",
-    "extra/xclip",
-  ],
-  [
-    "PACKAGE_NAME_VSCODE",
-    "extra/code",
+    "xclip",
   ],
   [
     "FONTS_DIR",
     "$HOME/.fonts",
   ],
+  [
+    "VSCODE_DIR",
+    "$HOME/.config/Code/User"
+  ],
 ]
 
-[tasks.vscode-bin]
-cmds = [["@install", "${PACKAGE_NAME_VSCODE}"]]
-
 [tasks.specific__arch]
-deps = ["fish", "xclip", "vscode-bin"]
+deps = ["fish", "xclip"]
 cmds = [
   [
     "@fish",
-    "alias",
-    "pbcopy",
-    "xclip -selection clipboard",
+    "alias --save pbcopy 'xclip -selection clipboard'",
   ],
   [
     "@fish",
-    "alias",
-    "pbpaste",
-    "xclip -selection clipboard -o",
+    "alias --save pbpaste 'xclip -selection clipboard -o'"
   ],
 ]
 
@@ -207,6 +204,9 @@ links = [[".config/kitty/kitty.conf", "config/kitty/kitty.conf"]]
 
 [tasks.vscode]
 accepts = [["which", "code"]]
+envs = [
+  [ "NODE_OPTIONS", "--throw-deprecation" ]
+]
 cmds = [
   [
     "@fish",
@@ -215,11 +215,11 @@ cmds = [
 ]
 links = [
   [
-    "$HOME/Library/Application Support/Code/User/settings.json",
+    "${VSCODE_DIR}/settings.json",
     "config/vscode/settings.json",
   ],
   [
-    "$HOME/Library/Application Support/Code/User/keybindings.json",
+    "${VSCODE_DIR}/keybindings.json",
     "config/vscode/keybindings.json",
   ],
 ]
