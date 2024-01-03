@@ -4,59 +4,188 @@ prefix = ["bash", "-c"]
 [macros.fish]
 prefix = ["fish", "-c"]
 
-[macros.install]
+[macros.install__osx]
 prefix = ["brew", "install"]
 
+[macros.install__arch]
+prefix = ["sudo", "pacman", "--sync", "--noconfirm"]
+
 [tasks.default]
-deps = ["fonts", "fish", "fzf-fish", "kitty", "neovim-bin", "vscode"]
+deps = [
+  "env",
+  "specific",
+  "fonts",
+  "fish",
+  "fzf-fish",
+  "kitty",
+  "neovim-bin",
+  "vscode",
+]
+
+[tasks.env__osx]
+envs = [
+  [
+    "PACKAGE_NAME_BAT",
+    "bat",
+  ],
+  [
+    "PACKAGE_NAME_FD",
+    "fd",
+  ],
+  [
+    "PACKAGE_NAME_FZF",
+    "fzf",
+  ],
+  [
+    "PACKAGE_NAME_LSD",
+    "lsd",
+  ],
+  [
+    "PACKAGE_NAME_KITTY",
+    "kitty",
+  ],
+  [
+    "PACKAGE_NAME_FISH",
+    "fish",
+  ],
+  [
+    "PACKAGE_NAME_STARSHIP",
+    "starship",
+  ],
+  [
+    "PACKAGE_NAME_NEOVIM",
+    "neovim",
+  ],
+  [
+    "FONTS_DIR",
+    "$HOME/Library/Fonts",
+  ],
+]
+
+[tasks.specific__osx]
+cmds = [["echo", "skipping on osx"]]
+
+[tasks.xclip]
+cmds = [["@install", "${PACKAGE_NAME_XCLIP}"]]
+
+[tasks.env__arch]
+envs = [
+  [
+    "PACKAGE_NAME_BAT",
+    "extra/bat",
+  ],
+  [
+    "PACKAGE_NAME_FD",
+    "extra/fd",
+  ],
+  [
+    "PACKAGE_NAME_FZF",
+    "extra/fzf",
+  ],
+  [
+    "PACKAGE_NAME_LSD",
+    "extra/lsd",
+  ],
+  [
+    "PACKAGE_NAME_KITTY",
+    "extra/kitty",
+  ],
+  [
+    "PACKAGE_NAME_FISH",
+    "extra/fish",
+  ],
+  [
+    "PACKAGE_NAME_STARSHIP",
+    "extra/starship",
+  ],
+  [
+    "PACKAGE_NAME_NEOVIM",
+    "extra/neovim",
+  ],
+  [
+    "PACKAGE_NAME_XCLIP",
+    "extra/xclip",
+  ],
+  [
+    "PACKAGE_NAME_VSCODE",
+    "extra/code",
+  ],
+  [
+    "FONTS_DIR",
+    "$HOME/.fonts",
+  ],
+]
+
+[tasks.vscode-bin]
+cmds = [["@install", "${PACKAGE_NAME_VSCODE}"]]
+
+[tasks.specific__arch]
+deps = ["fish", "xclip", "vscode-bin"]
+cmds = [
+  [
+    "@fish",
+    "alias",
+    "pbcopy",
+    "xclip -selection clipboard",
+  ],
+  [
+    "@fish",
+    "alias",
+    "pbpaste",
+    "xclip -selection clipboard -o",
+  ],
+]
 
 [tasks.fzf-deps]
 cmds = [
   [
     "@install",
-    "bat",
+    "${PACKAGE_NAME_BAT}",
   ],
   [
     "@install",
-    "fd",
+    "${PACKAGE_NAME_FD}",
   ],
   [
     "@install",
-    "fzf",
+    "${PACKAGE_NAME_FZF}",
   ],
   [
     "@install",
-    "lsd",
+    "${PACKAGE_NAME_LSD}",
   ],
 ]
 
 [tasks.kitty-bin]
 rejects = [["which", "kitty"]]
-cmds = [["@install", "kitty"]]
+cmds = [["@install", "${PACKAGE_NAME_KITTY}"]]
 
 [tasks.fish-bin]
 rejects = [["which", "fish"]]
-cmds = [["@install", "fish"]]
+cmds = [["@install", "${PACKAGE_NAME_FISH}"]]
+
+[tasks.fish-change-shell]
+deps = ["fish-bin"]
+rejects = [["test", "$(basename ${SHELL}) = 'fish'"]]
+cmds = [["@fish", "chsh -s $(which fish)"]]
 
 [tasks.starship-bin]
 rejects = [["which ", "starship"]]
-cmds = [["@install", "starship"]]
+cmds = [["@install", "${PACKAGE_NAME_STARSHIP}"]]
 
 [tasks.neovim-bin]
 rejects = [["which ", "nvim"]]
-cmds = [["@install", "neovim"]]
+cmds = [["@install", "${PACKAGE_NAME_NEOVIM}"]]
 
 [tasks.starship]
 deps = ["starship-bin"]
 links = [[".config/starship.toml", "config/starship/starship.toml"]]
 
 [tasks.fzf-fish]
-accepts = [["@fish", "fisher", "--version"]]
 deps = ["fzf-deps"]
-cmds = [["@fish", "fisher install PatrickF1/fzf.fish"]]
 
 [tasks.fish]
-deps = ["fish-bin", "starship"]
+deps = ["fish-bin", "fish-change-shell", "starship"]
 links = [
   [
     ".config/fish/config.fish",
@@ -81,7 +210,7 @@ accepts = [["which", "code"]]
 cmds = [
   [
     "@fish",
-    "cat $HM_SRC/config/vscode/extensions.txt | xargs -I {} -L 1 code --install-extension {} --force",
+    "cat $HM_SRC/config/vscode/extensions.txt | xargs -n1 -I{} -- code --install-extension {} --force",
   ],
 ]
 links = [
@@ -96,4 +225,9 @@ links = [
 ]
 
 [tasks.fonts]
-cmds = [["@fish", "cp -a $HM_SRC/config/fonts $HOME/Library/Fonts"]]
+cmds = [
+  [
+    "@fish",
+    "mkdir -p ${FONTS_DIR} && cp -a $HM_SRC/config/fonts ${FONTS_DIR}",
+  ],
+]
