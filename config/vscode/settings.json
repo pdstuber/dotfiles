@@ -37,12 +37,16 @@
     ],
     "vim.visualModeKeyBindingsNonRecursive": [
         {
-            "before": ["<leader>", "d"],
+            "before": ["d"],
             "after": ["\"", "_", "d"]
         },
         {
-            "before": ["<leader>", "p"],
-            "after": ["\"", "_", "P"]
+            "before": ["c"],
+            "after": ["\"", "_", "c"]
+        },
+        {
+            "before": ["p"],
+            "after": ["P"]
         }
     ],
     "vim.normalModeKeyBindingsNonRecursive": [

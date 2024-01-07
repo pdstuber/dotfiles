@@ -11,4 +11,3 @@ set -gx GPG_TTY $(tty)
 set -x LANG en_US.UTF-8
 
 starship init fish | source
-
