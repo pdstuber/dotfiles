@@ -20,6 +20,7 @@ deps = [
   "kitty",
   "neovim-bin",
   "vscode",
+  "android",
 ]
 
 [tasks.env__osx]
@@ -27,6 +28,10 @@ envs = [
   [
     "PACKAGE_NAME_BAT",
     "bat",
+  ],
+  [
+    "PACKAGE_NAME_LIBGIT",
+    "libgit2",
   ],
   [
     "PACKAGE_NAME_FD",
@@ -63,6 +68,22 @@ envs = [
   [
     "VSCODE_DIR",
     "$HOME/Library/Application Support/Code/User"
+  ],
+  [
+    "PACKAGE_NAME_JAVA",
+    "java"
+  ],
+  [
+    "PACKAGE_NAME_KOTLIN",
+    "kotlin"
+  ],
+  [
+    "PACKAGE_NAME_ANDROID_STUDIO",
+    "android-studio"
+  ],
+  [
+    "PACKAGE_NAME_GRADLE",
+    "gradle"
   ],
 ]
 
@@ -138,6 +159,10 @@ cmds = [
   [
     "@install",
     "${PACKAGE_NAME_BAT}",
+  ],
+  [
+    "@install",
+    "${PACKAGE_NAME_LIBGIT}",
   ],
   [
     "@install",
@@ -231,3 +256,24 @@ cmds = [
     "mkdir -p ${FONTS_DIR} && cp -a $HM_SRC/config/fonts ${FONTS_DIR}",
   ],
 ]
+
+[tasks.android]
+cmds = [
+  [
+    "@install",
+    "${PACKAGE_NAME_JAVA}",
+  ],
+  [
+    "@install",
+    "${PACKAGE_NAME_KOTLIN}",
+  ],
+  [
+    "@install",
+    "${PACKAGE_NAME_GRADLE}",
+  ],
+  [
+    "@install",
+    "${PACKAGE_NAME_ANDROID_STUDIO}",
+  ],
+]
+links = [[".ideavimrc", "config/androidstudio/.ideavimrc"]]
