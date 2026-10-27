@@ -25,10 +25,19 @@
   "buffer_font_features": {
     "dlig": true
   },
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "fish": true,
+    "html": true,
+    "kanagawa-themes": true,
+    "tokyo-night": true,
+    "toml": true
+  },
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Tokyo Night"
+    "dark": "Kanagawa Wave"
   }
 }
