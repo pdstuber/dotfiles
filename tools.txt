@@ -1,2 +1,3 @@
 rustup stable
 node 24.19.0
+fisher config/fish/fish_plugins

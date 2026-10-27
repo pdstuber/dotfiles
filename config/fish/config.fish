@@ -10,6 +10,6 @@ set -gx EDITOR "$VISUAL"
 set -gx GPG_TTY $(tty)
 set -x LANG en_US.UTF-8
 
-fzf_configure_bindings --directory=\ct
+type -q fzf_configure_bindings; and fzf_configure_bindings --directory=\ct
 
-starship init fish | source
+type -q tide; or starship init fish | source

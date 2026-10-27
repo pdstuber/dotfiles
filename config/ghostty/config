@@ -5,7 +5,7 @@ working-directory = home
 window-inherit-working-directory = false
 tab-inherit-working-directory = false
 
-theme = Vesper
+theme = Kanagawabones
 
 keybind = super+1=goto_tab:1
 keybind = super+2=goto_tab:2

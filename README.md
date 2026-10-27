@@ -14,7 +14,8 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles`. Editing a
 - New config: `dotfiles adopt <path> config/<tool>/<file>` moves it into the repo and adds the `links.txt` line.
 - An app replaced a link with a real file (gh, Copilot CLI do this): `dotfiles adopt <path>` keeps the app's version in the repo; review it with `git diff`.
 - `dotfiles link` never overwrites a real file; it reports a conflict instead.
-- Package: add to `Brewfile` (brew/cask) or `tools.txt` (`kind name [source]`: uv, cargo, rustup, node). Machine-specific apps can stay manually installed.
+- Package: add to `Brewfile` (brew/cask) or `tools.txt` (`kind name [source]`: uv, cargo, rustup, node, fisher). Machine-specific apps can stay manually installed.
+- Fish plugin: `fisher install <repo>` installs to `~/.local/share/fisher` (not the repo) and records it in `config/fish/fish_plugins`; commit that file. Tide's prompt settings live in the `fisher` case of `tool_install` in `dotfiles`.
 - Secrets or app state: add the path to `drift-ignore.txt`.
 
 ## Drift check

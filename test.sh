@@ -104,6 +104,15 @@ mkdir -p "$DOTFILES/local"; echo 'uv localtool' > "$DOTFILES/local/tools.txt"
 run check; expect_rc 1; has "missing tool: uv localtool"
 rm -r "$DOTFILES/local"; baseline
 
+case_ "fisher plugin drift is flagged, order-insensitive"
+mkdir -p "$DOTFILES/config/fish"; printf 'a/one\nb/two\n' > "$DOTFILES/config/fish/fish_plugins"
+echo 'fisher config/fish/fish_plugins' > "$DOTFILES/tools.txt"; commit
+printf '#!/bin/sh\necho a/one\n' > "$HOME/.local/bin/fish"; chmod +x "$HOME/.local/bin/fish"
+run check; expect_rc 1; has "missing tool: fisher config/fish/fish_plugins"
+printf '#!/bin/sh\nprintf "b/two\\na/one\\n"\n' > "$HOME/.local/bin/fish"
+run check; expect_rc 0
+rm -r "$HOME/.local/bin/fish" "$DOTFILES/config/fish"; printf '# none\n' > "$DOTFILES/tools.txt"; commit; baseline
+
 case_ "vscode extension drift is flagged"
 mkdir -p "$DOTFILES/config/vscode"; echo pub.one > "$DOTFILES/config/vscode/extensions.txt"; commit
 printf '#!/bin/sh\nprintf "Pub.One\\npub.two\\n"\n' > "$HOME/.local/bin/code"; chmod +x "$HOME/.local/bin/code"
