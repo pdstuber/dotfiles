@@ -76,6 +76,9 @@ tool_have() {
     rustup) rustup toolchain list 2>/dev/null | grep -q "^$2" ;;
     node) fnm list 2>/dev/null | grep -q "v$2 default" ;;
     fisher) [ "$(fish -c 'fisher list' 2>/dev/null | sort)" = "$(grep . "$REPO/$2" | sort)" ] ;;
+    # A plugin for an agent CLI this machine doesn't have counts as present.
+    copilot-plugin|claude-plugin) command -v "${1%-plugin}" >/dev/null || return 0
+      "${1%-plugin}" plugin list 2>/dev/null | grep -qF -- "$2" ;;
     *) echo "unknown tool kind: $1" >&2; return 2 ;;
   esac
 }
@@ -88,6 +91,8 @@ tool_install() {
     node) fnm install "$2" && fnm default "$2" ;;
     fisher) fish -c 'type -q fisher; or curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher update' &&
       fish -c "type -q tide; or exit 0; tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Compact --icons='Few icons' --transient=Yes" ;;
+    copilot-plugin|claude-plugin) "${1%-plugin}" plugin marketplace add "$3" >/dev/null 2>&1
+      "${1%-plugin}" plugin install "$2" ;;
   esac
 }
 

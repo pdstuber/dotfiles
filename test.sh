@@ -113,6 +113,14 @@ printf '#!/bin/sh\nprintf "b/two\\na/one\\n"\n' > "$HOME/.local/bin/fish"
 run check; expect_rc 0
 rm -r "$HOME/.local/bin/fish" "$DOTFILES/config/fish"; printf '# none\n' > "$DOTFILES/tools.txt"; commit; baseline
 
+case_ "agent plugins: flagged when CLI present and plugin missing, skipped without CLI"
+printf 'copilot-plugin p@m o/m\nclaude-plugin p@m o/m\n' > "$DOTFILES/tools.txt"; commit
+printf '#!/bin/sh\necho "  • other@m"\n' > "$HOME/.local/bin/copilot"; chmod +x "$HOME/.local/bin/copilot"
+run check; expect_rc 1; has "missing tool: copilot-plugin p@m"; hasnt "claude-plugin"
+printf '#!/bin/sh\necho "  • p@m (v1)"\n' > "$HOME/.local/bin/copilot"
+run check; expect_rc 0
+rm "$HOME/.local/bin/copilot"; printf '# none\n' > "$DOTFILES/tools.txt"; commit; baseline
+
 case_ "vscode extension drift is flagged"
 mkdir -p "$DOTFILES/config/vscode"; echo pub.one > "$DOTFILES/config/vscode/extensions.txt"; commit
 printf '#!/bin/sh\nprintf "Pub.One\\npub.two\\n"\n' > "$HOME/.local/bin/code"; chmod +x "$HOME/.local/bin/code"
