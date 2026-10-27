@@ -7,7 +7,7 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 - **Shell**: fish
 - **Terminal**: Ghostty
 - **Font**: MonoLisa (paid, Nerd Font patched)
-- **Prompt**: Starship (kotlin, java, gradle modules disabled; command_timeout = 1000)
+- **Prompt**: Tide (fish plugin); Starship as fallback
 - **Editor**: Vim and Zed
 - **Aliases**: `cat` is aliased to `bat` — always pass `--paging=never` or pipe through `cat` when reading files in terminal
 - **OS**: macOS (Apple Silicon)
@@ -18,7 +18,6 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
   overriding their own keyrings (`gh help environment`: "takes precedence over previously stored
   credentials"), so a stale one silently breaks auth on *both* instead of helping — the symptom is
   `401 Bad credentials`, not a login prompt. Let each tool manage its own keyring.
-- `gh skill` (search/install/publish agent skills) needs github.com auth: `gh auth login -h github.com`.
 - **Never echo a token to check it.** `${VAR:-NO}` prints the value when set. Test with
   `curl -o /dev/null -w '%{http_code}'` and print only length/prefix.
 
@@ -114,17 +113,16 @@ multi-agent features and does not apply here.** For everyday work:
 - **Still review small diffs** when they touch concurrency, RxJava operator semantics, caching,
   lifecycle or a public API — that is cheap and earns its keep (one such review caught
   a vacuous regression test I had written). Skip it for pure renames, docs and config.
-- **Never dump a file to find one section.** `grep -n` the heading, then `view` with `view_range`.
-- **Always scope `grep` with `paths`/`glob`** — an unscoped repo-wide grep times out and returns a
+- **Never dump a file to find one section.** `grep -n` the heading, then read only that line range.
+- **Always scope searches to a path or glob** — an unscoped repo-wide grep times out and returns a
   huge partial result, which costs more than the search was worth.
 - **Searching from bash: `git grep` for tracked code, `rg` when untracked/generated files matter or
   outside a repo, `rg -uu` to search build output on purpose. Never `grep -r` or `pt`** — both
   descend into gitignored `build/` output and take ~40s where `rg` takes under a second.
-- **No `timeout`/`gtimeout` on my Macs** (BSD userland, coreutils not installed). Don't reach
-  for it — a `bash` call already returns control on `initial_wait` and keeps running in background,
-  so use that instead of wrapping commands.
-- **Route builds/tests/lint through the `task` agent** (returns a one-line success, or the full
-  failure). Running Gradle straight from bash puts the entire log in the main context.
+- **No `timeout`/`gtimeout` on my Macs** (BSD userland, coreutils not installed). Run long
+  commands in the background instead of wrapping them.
+- **Route builds/tests/lint through a sub-agent** that returns a one-line success or the full
+  failure. Running Gradle straight from bash puts the entire log in the main context.
 - **`gh` always with `--jq`** to select fields; never dump a whole PR body.
 - **Shared sub-agent context goes in a file** referenced by path, not pasted into each prompt.
 
@@ -142,27 +140,25 @@ Prune aggressively:
 
 ## Model Strategy & Delegation (a.k.a. Fleet Mode)
 
-**Goal: expensive thinking once, cheap execution many times.** Claude Code calls this
-`opusplan` (Opus in plan mode → cheap model for execution). Copilot CLI has the same thing,
-split across two settings — use both.
+**Goal: expensive thinking once, cheap execution many times.** The strongest model plans, the
+default tier implements, the cheapest tier only runs steps whose result is plainly pass/fail
+(Claude Code: `opusplan`). Concrete model picks per tool live in the machine-local instructions.
 
 ### Quality levers: spend more where judgment is read-only
 
-Sonnet execution is the *default*, not the ceiling. Places where paying more buys
+The implementation tier is the *default*, not the ceiling. Places where paying more buys
 quality the default tier cannot:
 
-- **The reviewer must come from a different family than the implementer.** Sonnet writes ⇒
-  **Grok reviews** (`grok-4.7` @ `xhigh`), not Opus. Same-family review re-runs the same blind
-  spots and reads as approval. Copilot's `/subagents` picker calls this strategy
-  `complementary`; `code-review` and `security-review` are pinned to Grok for exactly this.
+- **The reviewer comes from a different model family than the implementer** when the tool offers
+  one. Same-family review re-runs the same blind spots and reads as approval. With one family
+  only (Claude Code), use a fresh-context reviewer that sees nothing but the diff.
 - **The reviewer gets a diff, not a repo.** Pass `git diff` output plus explicit file paths,
-  and forbid repo-wide grep in the review prompt. Review calls were averaging 96k input
-  tokens, which is the whole repo arriving by the back door.
-- **Opus may be dispatched as a sub-agent when the role is read-only judgment** — the final
-  whole-branch review, adjudicating two reviewers that disagree, or a fix-loop that is still
-  stuck after Sonnet. Such a role reads a bounded diff and emits a short report, so
-  Opus's $25/1M output barely registers; the ban is on Opus running the *many-turn* write
-  loop, where that rate compounds over every edit-test cycle. **Implementation stays off Opus.**
+  and forbid repo-wide search in the review prompt.
+- **The planning model may run as a sub-agent when the role is read-only judgment**: the final
+  whole-branch review, adjudicating two reviewers that disagree, or a fix loop still stuck
+  after the implementation tier. It reads a bounded diff and writes a short report, so its price
+  barely registers; the cost is a *many-turn* write loop. **Implementation stays off the
+  planning model.**
 - **TDD's red phase gets the implementation tier, never lower.** The failing test *is* the
   spec — a subtly wrong test passes bad code silently and forever, and no later review round
   catches it because everything is green. Have the reviewer read the tests, not just the diff.
@@ -176,8 +172,8 @@ quality the default tier cannot:
 
 The executor should not have to re-derive the design. The plan I hand it must be self-contained:
 exact file paths, exact before/after snippets, exact commands to verify, explicit
-"don't touch X". Rule of thumb: **if I can't imagine Sonnet doing the step from the
-plan text alone, the plan isn't finished** — and a step only goes to the cheapest runner tier if it
+"don't touch X". Rule of thumb: **if the implementation tier couldn't do the step from the
+plan text alone, the plan isn't finished** — and a step only goes to the cheapest tier if it
 needs no decisions at all.
 
 ### When to fan out at all
@@ -185,8 +181,8 @@ needs no decisions at all.
 - **Parallelise only genuinely independent items** (N independent flaky tests, per-platform
   retests, mechanical multi-file edits). Decompose into independent todos FIRST — if they
   don't fall out cleanly independent, don't force a split. Coupled/sequential work ≠ fleet.
-- **Reviews get their own agent**, run in parallel with implementation, on a Claude model —
-  see the complementary-reviewer rule above.
+- **Reviews get their own agent**, run in parallel with implementation — see the reviewer rule
+  above.
 - **Sub-agents inherit my git rules:** never `git lfs install`, never commit/push without
   approval (a sub-agent once ran `git lfs install` and dumped hook files into repo root).
 - "fleet mode" / "use fleet" = delegate aggressively.
