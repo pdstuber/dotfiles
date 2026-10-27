@@ -1,8 +1,10 @@
 # Path
+fish_add_path /opt/homebrew/opt/openjdk/bin
 fish_add_path /opt/homebrew/bin /opt/homebrew/sbin $GOPATH/bin /usr/local/bin
 fish_add_path /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
 # Environment
+set -gx JAVA_HOME (/usr/libexec/java_home -v 21)
 set -gx GOPATH "$HOME/go"
 set -gx GIT_TERMINAL_PROMPT 1
 set -gx VISUAL nvim

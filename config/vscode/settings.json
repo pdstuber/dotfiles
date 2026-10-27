@@ -64,5 +64,6 @@
         }
     ],
     "vim.smartRelativeLine": true,
-    "vim.highlightedyank.enable": true
+    "vim.highlightedyank.enable": true,
+    "update.showReleaseNotes": false
 }
