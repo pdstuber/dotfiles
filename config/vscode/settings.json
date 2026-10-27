@@ -68,5 +68,6 @@
     "makefile.configureOnOpen": false,
     "editor.multiCursorLimit": 100000,
     "python.defaultInterpreterPath": "/opt/homebrew/bin/python3.14",
-    "github.copilot.nextEditSuggestions.enabled": true
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "update.showReleaseNotes": false
 }
