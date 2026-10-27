@@ -19,5 +19,5 @@ config/agents/AGENTS.md -> ~/.claude/CLAUDE.md
 config/agents/AGENTS.md -> ~/.codex/AGENTS.md
 config/vscode/settings.json -> ~/Library/Application Support/Code/User/settings.json
 config/vscode/keybindings.json -> ~/Library/Application Support/Code/User/keybindings.json
-dotfiles -> ~/.local/bin/dotfiles
+dotfiles.bash -> ~/.local/bin/dotfiles
 ?local/agents/skills/reviewing-a-pull-request -> ~/.agents/skills/reviewing-a-pull-request

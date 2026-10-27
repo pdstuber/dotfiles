@@ -1,12 +1,12 @@
 # dotfiles
 
-Plain symlinks, driven by `links.txt` and one bash script, `dotfiles`. Editing a file in `~` edits the repo. Not pushed anywhere.
+Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (linked as `dotfiles`). Editing a file in `~` edits the repo.
 
 ## New Mac
 
-1. Copy this repo to `~/dotfiles` (no remote) and the MonoLisa font to `config/fonts/` (gitignored, paid).
+1. `git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles`, then copy the MonoLisa font to `config/fonts/` (gitignored, paid).
 2. Install [Homebrew](https://brew.sh) and rustup (`curl https://sh.rustup.rs | sh`); `tools.txt` needs rustup for its `cargo`/`rustup` lines.
-3. `~/dotfiles/dotfiles apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
+3. `~/dotfiles/dotfiles.bash apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
 
 ## Daily
 
@@ -15,7 +15,7 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles`. Editing a
 - An app replaced a link with a real file (gh, Copilot CLI do this): `dotfiles adopt <path>` keeps the app's version in the repo; review it with `git diff`.
 - `dotfiles link` never overwrites a real file; it reports a conflict instead.
 - Package: add to `Brewfile` (brew/cask) or `tools.txt` (`kind name [source]`: uv, cargo, rustup, node, fisher). Machine-specific apps can stay manually installed.
-- Fish plugin: `fisher install <repo>` installs to `~/.local/share/fisher` (not the repo) and records it in `config/fish/fish_plugins`; commit that file. Tide's prompt settings live in the `fisher` case of `tool_install` in `dotfiles`.
+- Fish plugin: `fisher install <repo>` installs to `~/.local/share/fisher` (not the repo) and records it in `config/fish/fish_plugins`; commit that file. Tide: base preset is the `tide configure --auto` line in `dotfiles.bash`; personal tweaks go in `config/fish/conf.d/tide.fish`.
 - Secrets or app state: add the path to `drift-ignore.txt`.
 
 ## Drift check

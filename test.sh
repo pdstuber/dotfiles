@@ -1,5 +1,5 @@
 #!/bin/bash
-# Self-contained tests for ./dotfiles: temp HOME, stubbed brew, no network.
+# Self-contained tests for ./dotfiles.bash: temp HOME, stubbed brew, no network.
 set -u
 here=$(cd "$(dirname "$0")" && pwd)
 tmp=$(mktemp -d)
@@ -11,7 +11,7 @@ export PATH="$HOME/.local/bin:/usr/bin:/bin"
 n=0
 
 fail() { echo "FAIL (case $n): $*"; echo "--- output:"; echo "$out"; exit 1; }
-run() { out=$(cd / && "$here/dotfiles" "$@" 2>&1); rc=$?; }
+run() { out=$(cd / && "$here/dotfiles.bash" "$@" 2>&1); rc=$?; }
 has() { case $out in *"$1"*) ;; *) fail "output lacks: $1" ;; esac; }
 hasnt() { case $out in *"$1"*) fail "output has: $1" ;; esac; }
 expect_rc() { [ "$rc" = "$1" ] || fail "rc=$rc, want $1"; }

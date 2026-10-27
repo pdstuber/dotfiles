@@ -87,7 +87,7 @@ tool_install() {
     rustup) rustup toolchain install "$2" ;;
     node) fnm install "$2" && fnm default "$2" ;;
     fisher) fish -c 'type -q fisher; or curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher update' &&
-      fish -c "type -q tide; or exit 0; tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Compact --icons='Few icons' --transient=Yes; and set -U tide_git_truncation_length 0" ;;
+      fish -c "type -q tide; or exit 0; tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Compact --icons='Few icons' --transient=Yes" ;;
   esac
 }
 
