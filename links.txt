@@ -16,6 +16,7 @@ config/androidstudio/.ideavimrc -> ~/.ideavimrc
 config/github/copilot-settings.json -> ~/.copilot/settings.json
 config/agents/AGENTS.md -> ~/.copilot/copilot-instructions.md
 config/agents/AGENTS.md -> ~/.claude/CLAUDE.md
+config/claude/settings.json -> ~/.claude/settings.json
 config/agents/AGENTS.md -> ~/.codex/AGENTS.md
 config/vscode/settings.json -> ~/Library/Application Support/Code/User/settings.json
 config/vscode/keybindings.json -> ~/Library/Application Support/Code/User/keybindings.json
