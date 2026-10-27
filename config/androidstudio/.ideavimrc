@@ -1,0 +1,3 @@
+set relativenumber
+set clipboard=unnamed
+vnoremap p "_dP

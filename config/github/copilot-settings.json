@@ -1,0 +1,66 @@
+{
+  "experimental": true,
+  "theme": "default",
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true,
+    "superpowers@superpowers-marketplace": true
+  },
+  "model": "claude-sonnet-5.5",
+  "planModel": "claude-opus-5.5",
+  "planEffortLevel": "high",
+  "subagents": {
+    "agents": {
+      "explore": {
+        "model": "claude-sonnet-5.5",
+        "effortLevel": "medium"
+      },
+      "task": {
+        "model": "gpt-6-luna",
+        "effortLevel": "medium"
+      },
+      "general-purpose": {
+        "model": "claude-sonnet-5.5",
+        "effortLevel": "high"
+      },
+      "code-review": {
+        "model": "grok-4.7",
+        "effortLevel": "xhigh"
+      },
+      "security-review": {
+        "model": "grok-4.7",
+        "effortLevel": "xhigh"
+      },
+      "research": {
+        "model": "claude-sonnet-5.5",
+        "effortLevel": "high"
+      },
+      "rubber-duck": {
+        "model": "gpt-6.1-sol",
+        "effortLevel": "high",
+        "autoInvoke": true
+      }
+    }
+  },
+  "defaultPermissionMode": "assisted",
+  "effortLevel": "high"
+}

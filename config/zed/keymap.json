@@ -1,0 +1,14 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-tab": "projects::OpenRecent"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-tab": "projects::OpenRecent"
+    }
+  }
+]

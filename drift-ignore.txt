@@ -1,0 +1,17 @@
+# globs of ~/.config entries (relative to ~) that `dotfiles check` ignores: state, caches, secrets
+.config/opencode
+.config/github-copilot
+.config/maki
+.config/iterm2
+.config/zuul
+.config/gh/hosts.yml
+.config/fish/fish_variables
+.config/fish/completions
+.config/zed/prompts
+.config/zed/themes
+.config/btop
+.config/htop
+.config/herdr
+.config/kitty/themes
+.config/kitty/*.bak
+*.DS_Store

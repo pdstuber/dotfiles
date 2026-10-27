@@ -1,0 +1,5 @@
+.DS_Store
+config/fonts/*.ttf
+config/fonts/*.otf
+config/github/copilot-settings.json.lock
+local/
