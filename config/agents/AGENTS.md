@@ -89,10 +89,14 @@ Most work is small: one bug, one question, a few edits. For everyday work:
 - **Still review small diffs** touching concurrency, reactive/async operator semantics (RxJava, Flow),
   caching, lifecycle or a public API. Skip it for pure renames, docs and config.
 - **Never dump a file to find one section.** `grep -n` the heading, then read only that line range.
-- **Always scope searches to a path or glob**; an unscoped repo-wide grep times out.
-- **Bash search: `git grep` for tracked code, `rg` when untracked/generated files matter or outside a
-  repo, `rg -uu` for build output. Never `grep -r` or `pt`**: both descend into gitignored `build/`
-  output and take ~40s where `rg` takes under a second.
+- **Always scope searches to a path or glob**; an unscoped repo-wide grep times out. `rg` with no path
+  reads stdin in non-tty shells and hangs, so pass `.`.
+- **Search with `rg`** (as fast as `git grep`, faster on regex and scoped searches); `rg -uu` for build output.
+  List files with `git ls-files` or `rg --files`, never `find`. Never `grep -r`: it descends into gitignored
+  `build/` output and is many times slower.
+- **Renames:** use the IDE or language-server rename for symbols. For plain text replacement use a word
+  boundary (`\b`, or `[[:<:]]…[[:>:]]` in BSD sed); a bare `s/Foo/Bar/` also rewrites `oldFoo`.
+- **`sed` in agent shells is BSD** (`sed -i ''`); my fish `sed` is GNU `gsed`. Don't copy flags between them.
 - **Route builds/tests/lint through a sub-agent** that returns a one-line success or the full failure.
   Raw Gradle output floods the main context.
 - **`gh` always with `--jq`** to select fields; never dump a whole PR body.
