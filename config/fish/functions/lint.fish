@@ -1,3 +1,3 @@
 function lint
-  gradle lint detekt detektDebug
+  ./gradlew lint detekt detektDebug
 end
