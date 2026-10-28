@@ -9,7 +9,7 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 3. `git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles`, then copy the MonoLisa font to `config/fonts/` (gitignored, paid).
 4. `~/dotfiles/dotfiles.bash apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
 5. Fish as login shell: `echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells; chsh -s /opt/homebrew/bin/fish`.
-6. By hand: Temurin 21 (adoptium.net installer), Android Studio and SDK, `gh auth login`, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
+6. By hand: git identity and commit signing (`git config --global user.name/user.email`, then either a GPG key + `commit.gpgsign true`, or SSH: `gpg.format ssh`, `user.signingkey <key>.pub`, key uploaded to GitHub as a Signing Key), Temurin 21 (adoptium.net installer), Android Studio and SDK, `gh auth login`, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
 
 ## Daily
 
