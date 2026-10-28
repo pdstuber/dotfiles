@@ -77,7 +77,7 @@ tool_have() {
     node) fnm list 2>/dev/null | grep -q "v$2 default" ;;
     fisher) [ "$(fish -c 'fisher list' 2>/dev/null | sort)" = "$(grep . "$REPO/$2" | sort)" ] ;;
     # A plugin for an agent CLI this machine doesn't have counts as present.
-    copilot-plugin|claude-plugin) command -v "${1%-plugin}" >/dev/null || return 0
+    copilot-plugin|claude-plugin|codex-plugin) command -v "${1%-plugin}" >/dev/null || return 0
       "${1%-plugin}" plugin list 2>/dev/null | grep -qF -- "$2" ;;
     *) echo "unknown tool kind: $1" >&2; return 2 ;;
   esac
@@ -93,6 +93,8 @@ tool_install() {
       fish -c "type -q tide; or exit 0; tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Compact --icons='Few icons' --transient=Yes" ;;
     copilot-plugin|claude-plugin) "${1%-plugin}" plugin marketplace add "$3" >/dev/null 2>&1
       "${1%-plugin}" plugin install "$2" ;;
+    codex-plugin) [ -z "$3" ] || codex plugin marketplace add "$3" >/dev/null 2>&1
+      codex plugin add "$2" ;;
   esac
 }
 

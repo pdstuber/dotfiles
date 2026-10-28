@@ -5,3 +5,5 @@ copilot-plugin ponytail@ponytail DietrichGebert/ponytail
 copilot-plugin superpowers@superpowers-marketplace obra/superpowers-marketplace
 claude-plugin ponytail@ponytail DietrichGebert/ponytail
 claude-plugin superpowers@superpowers-marketplace obra/superpowers-marketplace
+codex-plugin ponytail@ponytail DietrichGebert/ponytail
+codex-plugin superpowers@openai-curated-remote
