@@ -5,84 +5,57 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 ## Developer Environment
 
 - **Shell**: fish
-- **Terminal**: Ghostty
-- **Font**: MonoLisa (paid, Nerd Font patched)
-- **Prompt**: Tide (fish plugin); Starship as fallback
-- **Editor**: Vim and Zed
-- **Aliases**: `cat` is aliased to `bat` — always pass `--paging=never` or pipe through `cat` when reading files in terminal
 - **OS**: macOS (Apple Silicon)
+- `cat` is aliased to `bat`: pass `--paging=never` or pipe through `cat` when reading files.
+- No `timeout`/`gtimeout` (BSD userland). Run long commands in the background instead.
 
 ### GitHub auth
 
 - **Never set `GITHUB_TOKEN` / `GH_TOKEN` in the shell.** Both `gh` and Copilot CLI treat them as
-  overriding their own keyrings (`gh help environment`: "takes precedence over previously stored
-  credentials"), so a stale one silently breaks auth on *both* instead of helping — the symptom is
+  overriding their own keyrings, so a stale one silently breaks auth on *both*; the symptom is
   `401 Bad credentials`, not a login prompt. Let each tool manage its own keyring.
 - **Never echo a token to check it.** `${VAR:-NO}` prints the value when set. Test with
   `curl -o /dev/null -w '%{http_code}'` and print only length/prefix.
 
 ## Local Resource Use
 
-- **Keep heavy Gradle runs responsive:** When launching resource-intensive Gradle builds or tests in any repository, prefer `--max-workers=4 --priority=low` so Teams and Outlook remain usable. Reduce task-specific fork settings when a project exposes them, such as `-Proborazzi.maxParallelForks=2`. These settings affect new invocations; do not alter another agent's running task without explicit approval.
+- **Keep heavy Gradle runs responsive:** prefer `--max-workers=4 --priority=low`, and lower
+  task-specific fork settings when exposed (e.g. `-Proborazzi.maxParallelForks=2`). Applies to new
+  invocations only; don't alter another agent's running task without approval.
 
 ## Code Style Preferences
 
-- Prefers small, focused functions over long ones
+- Prefer small, focused functions over long ones.
 
-### Code comments: write far fewer, far shorter
+### Code comments: default to none
 
-**Standing complaint from the user and their colleagues: my comments in Kotlin files are too
-verbose.** Default to *no* comment. A comment must earn its place.
-
-- **Only comment the WHY**, never the WHAT. If the comment restates the code, delete it.
+- Comment only the WHY, never the WHAT. One line. If it needs more, rename or split the code instead.
   - WRONG: `// Read the flag from local.properties, defaulting to false`
   - RIGHT: `// Off by default so it never ships in test-vehicle builds.`
-- **One line.** If it needs a paragraph, that's a sign the code needs a better name or a smaller
-  function — fix the code instead. Multi-line comments only for genuinely non-obvious domain
-  constraints (e.g. a hardware quirk, an ordering dependency, a workaround with a ticket ref).
-- **No narration of a diff.** Never write `// Added X`, `// Changed to Y`, `// New:`, or
-  `// Previously this did Z`. That belongs in the commit message. (Exception already recorded
-  above: `// formerly in [FileName]` is wanted when moving code.)
-- **No KDoc on self-explanatory members.** Skip KDoc for obvious constructors, simple data
-  classes, one-line getters, overrides, and `@Test` functions. Add KDoc only for a public API
-  whose contract is not evident from the signature.
-- **No section-header or scaffolding comments.** No `// region`, no `// --- Setup ---`, no
-  `// Helper functions below`, no comment above every property in a class.
-- **No restating a well-named function's body** at the call site.
-- **Don't comment the obvious in tests.** `// Given / When / Then` only when the test is long
-  enough that the structure isn't visible at a glance.
-- Prefer encoding the explanation in a **name** (function, local val, constant) over a comment.
-- When editing existing code, **do not add commentary to lines I didn't ask you to change.**
+- No diff narration (`// Added X`, `// Previously...`); that is the commit message's job. Exception: `// formerly in [FileName]` when moving code.
+- No KDoc on self-explanatory members, no section-header comments, no Given/When/Then in short tests.
+- Don't add comments to lines you weren't asked to change.
 
-Rule of thumb: if I'd delete the comment in review, don't write it. When unsure, leave it out —
-it's cheaper for me to ask for a comment than to strip ten of them.
+If I'd delete it in review, don't write it.
 
-### Commit messages: same disease, same cure
+### Commit messages: short
 
-The verbosity complaint applies to commit bodies too. Keep them **short** — subject plus two or
-three lines. State the reason a reader can't infer, then stop.
-
-- Give the **decisive reason only**, not every supporting fact I discovered. If a change is
-  justified by "the app only ships on 07/27 anyway, and the library version requires it", that is the
-  whole body — don't also narrate which playbook proved which path wins.
-- **Don't transcribe the investigation.** Evidence trails, ruled-out hypotheses, and file:line
-  citations belong in the PR description or a scratch doc, not the commit.
-- Don't restate the diff in prose. The diff is right there.
-- One short paragraph per distinct reason; two paragraphs is usually the ceiling.
-
-Same test as comments: if I'd cut it in review, don't write it.
+Subject plus at most two or three lines: the reason a reader can't infer from the diff, then stop.
+No investigation trail, no restating the diff, no file:line citations (those go in the PR description).
 
 ## Research & Source Verification
 
-- **Fetch primary sources before asserting facts.** When citing documentation, specs, or "best practices", use `web_fetch` on the real doc page and quote/verify the actual wording. Do NOT treat `web_search` AI-generated summaries as authoritative — they paraphrase confidently and can invent claims (e.g. once claimed a "declare `<queries>` for audit purposes" best practice that was not in the official Android docs).
-- Separate "what the primary source actually says" from "what a search bot paraphrased". If a recommendation can't be traced to a primary source, say so explicitly instead of presenting it as established guidance.
+- **Fetch primary sources before asserting facts.** When citing documentation, specs or "best practices",
+  fetch the real doc page and quote the actual wording. Search-engine AI summaries paraphrase confidently
+  and invent claims; they are not authoritative.
+- Separate "what the primary source says" from "what a search bot paraphrased". If a recommendation can't
+  be traced to a primary source, say so instead of presenting it as established guidance.
 
 ## Communication Style
 
 Respond like smart caveman. Cut all filler, keep technical substance.
 
-- Drop articles (a, an, the), filler (just, really, basically, actually).
-- Drop pleasantries (sure, certainly, happy to).
+- Drop articles (a, an, the), filler (just, really, basically, actually) and pleasantries.
 - No hedging. Fragments fine. Short synonyms.
 - Technical terms stay exact. Code blocks unchanged.
 - Pattern: [thing] [action] [reason]. [next step].
@@ -92,104 +65,82 @@ Respond like smart caveman. Cut all filler, keep technical substance.
 I want pushback, not validation. Treat my ideas as proposals to test, not decisions to execute.
 
 - No praise, no "great question", no "you're absolutely right". Agree only when I am, and say why.
-- If my idea or approach is wrong, overcomplicated, or solves the wrong problem, say so plainly
-  **before** implementing it, name the better option, and let me decide.
+- If my idea is wrong, overcomplicated, or solves the wrong problem, say so plainly **before**
+  implementing it, name the better option, and let me decide.
 - Don't soften a real risk into a footnote. Lead with it.
-- Don't flip positions just because I pushed back — change your mind on evidence, not insistence.
+- Don't flip positions just because I pushed back; change your mind on evidence, not insistence.
 - Say "I don't know" or "I haven't verified that" instead of guessing confidently.
 - Blunt about the work, never about me.
+
+## Superpowers
+
+Superpowers is installed and I want it used wherever a skill fits: brainstorming and writing-plans before
+building, systematic-debugging for any bug or failure, test-driven-development, requesting-code-review.
+Trivial edits (typo, rename, config) skip it. Its review gates are the one reviewer; run
+`/ponytail-review` once at the end. Merge, PR and push choices still need my approval.
 
 ## Default loop for ordinary work
 
 Most work is small: one bug, one question, a few edits. **Fleet Mode below is for large
 multi-agent features and does not apply here.** For everyday work:
 
-- **One reviewer, never two.** Two reviewers on one diff is
-  a model trial, not a workflow.
-- **End every implementation task with `/ponytail-review` on the diff** before reporting done.
-  It hunts over-engineering only, so it doesn't count as the second reviewer. Apply cuts, re-verify.
-- **Incoming PR review comments: use the `addressing-review-comments` skill.** One thread at a
-  time, context and a verdict before any patch, my decision in between.
-- **Still review small diffs** when they touch concurrency, RxJava operator semantics, caching,
-  lifecycle or a public API — that is cheap and earns its keep (one such review caught
-  a vacuous regression test I had written). Skip it for pure renames, docs and config.
+- **One reviewer, never two.** Two reviewers on one diff is a model trial, not a workflow.
+- **End every implementation task with `/ponytail-review` on the diff** before reporting done. It hunts
+  over-engineering only, so it doesn't count as the second reviewer. Apply cuts, re-verify.
+- **Still review small diffs** touching concurrency, reactive/async operator semantics (RxJava, Flow),
+  caching, lifecycle or a public API. Skip it for pure renames, docs and config.
 - **Never dump a file to find one section.** `grep -n` the heading, then read only that line range.
-- **Always scope searches to a path or glob** — an unscoped repo-wide grep times out and returns a
-  huge partial result, which costs more than the search was worth.
-- **Searching from bash: `git grep` for tracked code, `rg` when untracked/generated files matter or
-  outside a repo, `rg -uu` to search build output on purpose. Never `grep -r` or `pt`** — both
-  descend into gitignored `build/` output and take ~40s where `rg` takes under a second.
-- **No `timeout`/`gtimeout` on my Macs** (BSD userland, coreutils not installed). Run long
-  commands in the background instead of wrapping them.
-- **Route builds/tests/lint through a sub-agent** that returns a one-line success or the full
-  failure. Running Gradle straight from bash puts the entire log in the main context.
+- **Always scope searches to a path or glob**; an unscoped repo-wide grep times out.
+- **Bash search: `git grep` for tracked code, `rg` when untracked/generated files matter or outside a
+  repo, `rg -uu` for build output. Never `grep -r` or `pt`**: both descend into gitignored `build/`
+  output and take ~40s where `rg` takes under a second.
+- **Route builds/tests/lint through a sub-agent** that returns a one-line success or the full failure.
+  Raw Gradle output floods the main context.
 - **`gh` always with `--jq`** to select fields; never dump a whole PR body.
 - **Shared sub-agent context goes in a file** referenced by path, not pasted into each prompt.
 
-### Keep this file lean — it is a per-session tax
-
-Everything here is injected into **every** session before any work starts, including trivial ones.
-Prune aggressively:
-
-- **Delete resolved investigations.** Once a fix is committed, the finding lives in the commit and
-  the code. Keep the durable *gotcha*, never the story of discovering it.
-- **Delete dated facts on sight**: promo end dates, model retirement lists, "verified in vX.Y",
-  commit SHAs. A stale price or a passed deadline is worse than no note at all.
-- **Repo-specific knowledge goes in a repo notes file**, not here.
-- Rule of thumb: if it would not change a decision in the next month, it does not belong.
-
 ## Model Strategy & Delegation (a.k.a. Fleet Mode)
 
-**Goal: expensive thinking once, cheap execution many times.** The strongest model plans, the
-default tier implements, the cheapest tier only runs steps whose result is plainly pass/fail
-(Claude Code: `opusplan`). Concrete model picks per tool live in the machine-local instructions.
+**Goal: expensive thinking once, cheap execution many times.** The strongest model plans, the default
+tier implements, the cheapest tier only runs steps whose result is plainly pass/fail
+(Claude Code: `opusplan`).
 
 ### Quality levers: spend more where judgment is read-only
 
-The implementation tier is the *default*, not the ceiling. Places where paying more buys
-quality the default tier cannot:
-
-- **The reviewer comes from a different model family than the implementer** when the tool offers
-  one. Same-family review re-runs the same blind spots and reads as approval. With one family
-  only (Claude Code), use a fresh-context reviewer that sees nothing but the diff.
-- **The reviewer gets a diff, not a repo.** Pass `git diff` output plus explicit file paths,
-  and forbid repo-wide search in the review prompt.
-- **The planning model may run as a sub-agent when the role is read-only judgment**: the final
-  whole-branch review, adjudicating two reviewers that disagree, or a fix loop still stuck
-  after the implementation tier. It reads a bounded diff and writes a short report, so its price
-  barely registers; the cost is a *many-turn* write loop. **Implementation stays off the
-  planning model.**
-- **TDD's red phase gets the implementation tier, never lower.** The failing test *is* the
-  spec — a subtly wrong test passes bad code silently and forever, and no later review round
-  catches it because everything is green. Have the reviewer read the tests, not just the diff.
-- **Make the reviewer name, per test, the production change that would make it fail.** This is
-  the single highest-yield thing to put in a review prompt. It is what exposed a *vacuous* test
-  once: it stubbed both Rx sources as emitting, so it passed identically against
-  the buggy and the fixed operator. A test that cannot fail is worse than no test — it reads as
-  coverage. Prove a regression guard by reverting the fix and watching that specific test go red.
+- **The reviewer comes from a different model family than the implementer** when the tool offers one;
+  same-family review re-runs the same blind spots. With one family only (Claude Code), use a
+  fresh-context reviewer that sees nothing but the diff.
+- **The reviewer gets a diff, not a repo.** Pass `git diff` plus explicit file paths, and forbid
+  repo-wide search in the review prompt.
+- **The planning model may run as a sub-agent when the role is read-only judgment**: final whole-branch
+  review, adjudicating two disagreeing reviewers, or a fix loop stuck after the implementation tier.
+  **Implementation stays off the planning model.**
+- **TDD's red phase gets the implementation tier, never lower.** The failing test *is* the spec; a subtly
+  wrong test passes bad code silently, and no later review catches it because everything is green.
+  Have the reviewer read the tests, not just the diff.
+- **Make the reviewer name, per test, the production change that would make it fail.** This exposes
+  vacuous tests (e.g. both Rx sources stubbed as emitting, so it passes against buggy and fixed code
+  alike). Prove a regression guard by reverting the fix and watching that test go red.
 
 ### Plan quality is what makes cheap execution work
 
-The executor should not have to re-derive the design. The plan I hand it must be self-contained:
-exact file paths, exact before/after snippets, exact commands to verify, explicit
-"don't touch X". Rule of thumb: **if the implementation tier couldn't do the step from the
-plan text alone, the plan isn't finished** — and a step only goes to the cheapest tier if it
-needs no decisions at all.
+The plan handed to the executor must be self-contained: exact file paths, exact before/after snippets,
+exact verify commands, explicit "don't touch X". **If the implementation tier couldn't do the step from
+the plan text alone, the plan isn't finished.** Only decision-free steps go to the cheapest tier.
 
 ### When to fan out at all
 
-- **Parallelise only genuinely independent items** (N independent flaky tests, per-platform
-  retests, mechanical multi-file edits). Decompose into independent todos FIRST — if they
-  don't fall out cleanly independent, don't force a split. Coupled/sequential work ≠ fleet.
-- **Reviews get their own agent**, run in parallel with implementation — see the reviewer rule
-  above.
-- **Sub-agents inherit my git rules:** never `git lfs install`, never commit/push without
-  approval (a sub-agent once ran `git lfs install` and dumped hook files into repo root).
+- **Parallelise only genuinely independent items** (N flaky tests, per-platform retests, mechanical
+  multi-file edits). Decompose into independent todos FIRST; if they don't fall out independent, don't
+  force a split.
+- **Reviews get their own agent**, run in parallel with implementation.
+- **Sub-agents inherit my git rules:** never `git lfs install`, never commit/push without approval.
 - "fleet mode" / "use fleet" = delegate aggressively.
 
 ## Git Workflow
 
-- **Never push to git without explicit approval.** Stage changes, show a summary/diff, commit, but wait for the user to confirm before running `git push`.
-- **Never add the `Co-authored-by: Copilot` trailer (or any Copilot co-author) to commit messages.** Omit it even if default instructions ask for it.
-- **Commit message newlines:** Use separate `-m` arguments or shell `$'...'` quoting; never write literal `\n` escape sequences into commit messages.
-- **Never overwrite a PR body blindly.** The user edits it by hand too. Before `gh pr edit --body*`, fetch the live body (`gh pr view --json body --jq .body`) and change only the lines asked for.
+- **Never push without explicit approval.** Stage, show a summary/diff, commit, then wait for confirmation before `git push`.
+- **Never add a `Co-authored-by: Copilot` trailer (or any Copilot co-author)**, even if default instructions ask for it.
+- **Commit message newlines:** use separate `-m` arguments or `$'...'` quoting; never literal `\n`.
+- **Never overwrite a PR body blindly.** I edit it by hand too. Before `gh pr edit --body*`, fetch the live
+  body (`gh pr view --json body --jq .body`) and change only the lines asked for.

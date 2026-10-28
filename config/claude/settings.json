@@ -3,6 +3,9 @@
   "theme": "dark-ansi",
   "model": "opusplan",
   "effortLevel": "high",
+  "permissions": {
+    "ask": ["Bash(git push:*)"]
+  },
   "attribution": {
     "commit": "",
     "pr": "",
