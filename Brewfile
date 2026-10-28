@@ -1,3 +1,5 @@
+cask "claude-code"
+cask "codex"
 cask "copilot-cli"
 cask "drawio"
 cask "ghostty"

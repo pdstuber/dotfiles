@@ -4,9 +4,12 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 
 ## New Mac
 
-1. `git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles`, then copy the MonoLisa font to `config/fonts/` (gitignored, paid).
+1. `xcode-select --install` (Command Line Tools; Homebrew builds from source without bottles).
 2. Install [Homebrew](https://brew.sh) and rustup (`curl https://sh.rustup.rs | sh`); `tools.txt` needs rustup for its `cargo`/`rustup` lines.
-3. `~/dotfiles/dotfiles.bash apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
+3. `git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles`, then copy the MonoLisa font to `config/fonts/` (gitignored, paid).
+4. `~/dotfiles/dotfiles.bash apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
+5. Fish as login shell: `echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells; chsh -s /opt/homebrew/bin/fish`.
+6. By hand: Temurin 21 (adoptium.net installer), Android Studio and SDK, `gh auth login`, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
 
 ## Daily
 
