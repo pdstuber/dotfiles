@@ -81,8 +81,7 @@ Trivial edits (typo, rename, config) skip it. Its review gates are the one revie
 
 ## Default loop for ordinary work
 
-Most work is small: one bug, one question, a few edits. **Fleet Mode below is for large
-multi-agent features and does not apply here.** For everyday work:
+Most work is small: one bug, one question, a few edits. For everyday work:
 
 - **One reviewer, never two.** Two reviewers on one diff is a model trial, not a workflow.
 - **End every implementation task with `/ponytail-review` on the diff** before reporting done. It hunts
@@ -99,43 +98,12 @@ multi-agent features and does not apply here.** For everyday work:
 - **`gh` always with `--jq`** to select fields; never dump a whole PR body.
 - **Shared sub-agent context goes in a file** referenced by path, not pasted into each prompt.
 
-## Model Strategy & Delegation (a.k.a. Fleet Mode)
+## Model routing
 
-**Goal: expensive thinking once, cheap execution many times.** The strongest model plans, the default
-tier implements, the cheapest tier only runs steps whose result is plainly pass/fail
-(Claude Code: `opusplan`).
-
-### Quality levers: spend more where judgment is read-only
-
-- **The reviewer comes from a different model family than the implementer** when the tool offers one;
-  same-family review re-runs the same blind spots. With one family only (Claude Code), use a
-  fresh-context reviewer that sees nothing but the diff.
-- **The reviewer gets a diff, not a repo.** Pass `git diff` plus explicit file paths, and forbid
-  repo-wide search in the review prompt.
-- **The planning model may run as a sub-agent when the role is read-only judgment**: final whole-branch
-  review, adjudicating two disagreeing reviewers, or a fix loop stuck after the implementation tier.
-  **Implementation stays off the planning model.**
-- **TDD's red phase gets the implementation tier, never lower.** The failing test *is* the spec; a subtly
-  wrong test passes bad code silently, and no later review catches it because everything is green.
-  Have the reviewer read the tests, not just the diff.
-- **Make the reviewer name, per test, the production change that would make it fail.** This exposes
-  vacuous tests (e.g. both Rx sources stubbed as emitting, so it passes against buggy and fixed code
-  alike). Prove a regression guard by reverting the fix and watching that test go red.
-
-### Plan quality is what makes cheap execution work
-
-The plan handed to the executor must be self-contained: exact file paths, exact before/after snippets,
-exact verify commands, explicit "don't touch X". **If the implementation tier couldn't do the step from
-the plan text alone, the plan isn't finished.** Only decision-free steps go to the cheapest tier.
-
-### When to fan out at all
-
-- **Parallelise only genuinely independent items** (N flaky tests, per-platform retests, mechanical
-  multi-file edits). Decompose into independent todos FIRST; if they don't fall out independent, don't
-  force a split.
-- **Reviews get their own agent**, run in parallel with implementation.
-- **Sub-agents inherit my git rules:** never `git lfs install`, never commit/push without approval.
-- "fleet mode" / "use fleet" = delegate aggressively.
+- Plan with the strongest model, implement with the mid tier, and give the cheapest tier only decision-free steps with plain pass/fail output. Claude Code: `opusplan`, and set `model` per subagent.
+- Review with an independent model family where possible: `codex review --uncommitted` if `codex` is installed, otherwise a fresh-context reviewer. Machine-local instructions that name a reviewer or models override this.
+- The failing test is the spec: write it with the mid tier or higher. The reviewer names, per test, the production change that would make it fail.
+- Subagents never commit or push, and never run `git lfs install`.
 
 ## Git Workflow
 
