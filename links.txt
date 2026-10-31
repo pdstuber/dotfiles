@@ -21,3 +21,4 @@ config/vscode/settings.json -> ~/Library/Application Support/Code/User/settings.
 config/vscode/keybindings.json -> ~/Library/Application Support/Code/User/keybindings.json
 dotfiles.bash -> ~/.local/bin/dotfiles
 ?local/agents/skills/reviewing-a-pull-request -> ~/.agents/skills/reviewing-a-pull-request
+config/git/config -> ~/.gitconfig

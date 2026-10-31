@@ -1,8 +1,12 @@
-cask "claude-code"
+cask "android-commandlinetools"
+cask "claude-code@latest"
 cask "codex"
 cask "copilot-cli"
+cask "domzilla-caffeine"
 cask "drawio"
 cask "ghostty"
+cask "godot"
+cask "stats"
 cask "zed"
 
 brew "bat"

@@ -12,6 +12,7 @@
 .config/btop
 .config/htop
 .config/herdr
+.config/ponytail
 .config/kitty/themes
 .config/kitty/*.bak
 *.DS_Store

@@ -9,7 +9,15 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 3. `git clone https://github.com/pdstuber/dotfiles.git ~/dotfiles`, then copy the MonoLisa font to `config/fonts/` (gitignored, paid).
 4. `~/dotfiles/dotfiles.bash apply` links everything, runs `brew bundle`, copies fonts and installs the tools in `tools.txt`. Add `~/.local/bin` to `PATH` to call it as `dotfiles`.
 5. Fish as login shell: `echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells; chsh -s /opt/homebrew/bin/fish`.
-6. By hand: git identity and commit signing (`git config --global user.name/user.email`, then either a GPG key + `commit.gpgsign true`, or SSH: `gpg.format ssh`, `user.signingkey <key>.pub`, key uploaded to GitHub as a Signing Key), Temurin 21 (adoptium.net installer), Android Studio and SDK, `gh auth login`, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
+6. One SSH key per machine for GitHub auth and commit signing (identity and `gpg.format ssh` are in `config/git/config`; put a per-machine override such as a work email in `local/git/config`). Empty passphrase: git signs with the key file directly. Do this before cloning projects, their remotes use SSH:
+   ```
+   ssh-keygen -t ed25519 -C "$(scutil --get ComputerName)"
+   gh auth login -p ssh -s admin:public_key,admin:ssh_signing_key
+   gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication -t "$(scutil --get ComputerName)"
+   gh ssh-key add ~/.ssh/id_ed25519.pub --type signing -t "$(scutil --get ComputerName)"
+   ```
+7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
+8. Games: clone `git@github.com:pdstuber/the-last-hearth.git` and `hells-verdict` into `~/projects`. Gitignored files to copy from the old Mac: `the-last-hearth/spikes/local.env`, `the-last-hearth/tools/paper-run/runs/`, and `~/.claude/projects/-Users-<you>-projects-*/memory/`.
 
 ## Daily
 

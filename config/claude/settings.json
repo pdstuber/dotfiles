@@ -10,6 +10,7 @@
       "Bash(git push:*)"
     ]
   },
+  "model": "opusplan",
   "enabledPlugins": {
     "ponytail@ponytail": true,
     "superpowers@superpowers-marketplace": true
@@ -34,7 +35,6 @@
       }
     }
   },
-  "model": "opusplan",
   "effortLevel": "high",
   "modelSettings": {
     "claude-sonnet-5-5": {
@@ -44,5 +44,6 @@
       "effortLevel": "high"
     }
   },
-  "theme": "dark-ansi"
+  "theme": "dark-ansi",
+  "agentPushNotifEnabled": true
 }
