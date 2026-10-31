@@ -7,7 +7,6 @@ set -gx GOPATH "$HOME/go"
 set -gx GIT_TERMINAL_PROMPT 1
 set -gx VISUAL vim
 set -gx EDITOR "$VISUAL"
-set -gx GPG_TTY $(tty)
 set -x LANG en_US.UTF-8
 
 type -q fzf_configure_bindings; and fzf_configure_bindings --directory=\ct
