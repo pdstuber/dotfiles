@@ -12,12 +12,12 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 6. One SSH key per machine for GitHub auth and commit signing (identity and `gpg.format ssh` are in `config/git/config`; put a per-machine override such as a work email in `local/git/config`). Empty passphrase: git signs with the key file directly. Do this before cloning projects, their remotes use SSH:
    ```
    ssh-keygen -t ed25519 -C "$(scutil --get ComputerName)"
-   gh auth login -p ssh -s admin:public_key,admin:ssh_signing_key
+   gh auth login -p ssh --skip-ssh-key -s admin:public_key,admin:ssh_signing_key
    gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication -t "$(scutil --get ComputerName)"
    gh ssh-key add ~/.ssh/id_ed25519.pub --type signing -t "$(scutil --get ComputerName)"
    ```
 7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
-8. Games: clone `git@github.com:pdstuber/the-last-hearth.git` and `hells-verdict` into `~/projects`. Gitignored files to copy from the old Mac: `the-last-hearth/spikes/local.env`, `the-last-hearth/tools/paper-run/runs/`, and `~/.claude/projects/-Users-<you>-projects-*/memory/`.
+8. Games (Xcode, Godot export templates, AVD: see the-last-hearth `spikes/README.md`; headless tests need only `godot`): clone `git@github.com:pdstuber/the-last-hearth.git` and `hells-verdict` into `~/projects`. Gitignored files to copy from the old Mac: `the-last-hearth/spikes/local.env`, `the-last-hearth/tools/paper-run/runs/`, and `~/.claude/projects/-Users-<you>-projects-*/memory/`.
 
 ## Daily
 
