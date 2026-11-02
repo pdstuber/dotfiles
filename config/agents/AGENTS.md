@@ -106,7 +106,9 @@ Most work is small: one bug, one question, a few edits. For everyday work:
 
 - Plan with the strongest model, implement with the mid tier, and give the cheapest tier only decision-free steps with plain pass/fail output. Claude Code: `opusplan`, and set `model` per subagent.
 - Review with an independent model family where possible: `codex review --uncommitted` if `codex` is installed, otherwise a fresh-context reviewer. Machine-local instructions that name a reviewer or models override this.
-- The failing test is the spec: write it with the mid tier or higher. The reviewer names, per test, the production change that would make it fail.
+- Reviewers get a diff plus file paths, not the repo; forbid repo-wide search in the review prompt.
+- Plans are self-contained: exact paths, before/after snippets, verify commands, explicit "don't touch X". If the implementation tier couldn't do a step from the text alone, the plan isn't finished.
+- The failing test is the spec: write it with the mid tier or higher. The reviewer names, per test, the production change that would make it fail. Prove a regression guard by reverting the fix and watching that test go red.
 - Subagents never commit or push, and never run `git lfs install`.
 
 ## Git Workflow
