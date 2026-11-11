@@ -6,6 +6,7 @@ cask "domzilla-caffeine"
 cask "drawio"
 cask "ghostty"
 cask "godot"
+cask "kitty"
 cask "stats"
 cask "zed"
 
