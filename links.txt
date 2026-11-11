@@ -21,4 +21,7 @@ config/vscode/settings.json -> ~/Library/Application Support/Code/User/settings.
 config/vscode/keybindings.json -> ~/Library/Application Support/Code/User/keybindings.json
 dotfiles.bash -> ~/.local/bin/dotfiles
 ?local/agents/skills/reviewing-a-pull-request -> ~/.agents/skills/reviewing-a-pull-request
+?local/agents/skills/blast-radius -> ~/.agents/skills/blast-radius
+?local/agents/skills/pr-tidy -> ~/.agents/skills/pr-tidy
+?local/bin/prepare-emulator -> ~/.local/bin/prepare-emulator
 config/git/config -> ~/.gitconfig

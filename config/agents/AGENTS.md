@@ -4,24 +4,22 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 
 ## Developer Environment
 
-- **Shell**: fish
-- **OS**: macOS (Apple Silicon)
-- `cat` is aliased to `bat`: pass `--paging=never` or pipe through `cat` when reading files.
+- **Shell**: fish. **OS**: macOS (Apple Silicon).
+- `cat` is aliased to `bat`: pass `--paging=never` or pipe through `cat`.
 - No `timeout`/`gtimeout` (BSD userland). Run long commands in the background instead.
+- **In agent shells use `gsed -i`** (GNU, installed); plain `sed` there is BSD and `sed -i` fails.
 
 ### GitHub auth
 
-- **Never set `GITHUB_TOKEN` / `GH_TOKEN` in the shell.** Both `gh` and Copilot CLI treat them as
-  overriding their own keyrings, so a stale one silently breaks auth on *both*; the symptom is
-  `401 Bad credentials`, not a login prompt. Let each tool manage its own keyring.
-- **Never echo a token to check it.** `${VAR:-NO}` prints the value when set. Test with
-  `curl -o /dev/null -w '%{http_code}'` and print only length/prefix.
+- **Never set `GITHUB_TOKEN` / `GH_TOKEN` in the shell.** `gh` and Copilot CLI both let them override
+  their keyrings, so a stale one silently breaks both (`401 Bad credentials`, no login prompt).
+- **Never echo a token to check it** (`${VAR:-NO}` prints it). Test with
+  `curl -o /dev/null -w '%{http_code}'`; print only length/prefix.
 
 ## Local Resource Use
 
-- **Keep heavy Gradle runs responsive:** prefer `--max-workers=4 --priority=low`, and lower
-  task-specific fork settings when exposed (e.g. `-Proborazzi.maxParallelForks=2`). Applies to new
-  invocations only; don't alter another agent's running task without approval.
+- **Keep heavy Gradle runs responsive:** `--max-workers=4 --priority=low`, and lower task fork settings
+  when exposed (e.g. `-Proborazzi.maxParallelForks=2`). Don't alter another agent's running task unasked.
 
 ## Code Style Preferences
 
@@ -32,89 +30,87 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 - Comment only the WHY, never the WHAT. One line. If it needs more, rename or split the code instead.
   - WRONG: `// Read the flag from local.properties, defaulting to false`
   - RIGHT: `// Off by default so it never ships in test-vehicle builds.`
-- No diff narration (`// Added X`, `// Previously...`); that is the commit message's job. Exception: `// formerly in [FileName]` when moving code.
+- No diff narration (`// Added X`); that's the commit message's job. Exception: `// formerly in [FileName]`.
 - No KDoc on self-explanatory members, no section-header comments, no Given/When/Then in short tests.
-- Don't add comments to lines you weren't asked to change.
-
-If I'd delete it in review, don't write it.
+- Don't add comments to lines you weren't asked to change. If I'd delete it in review, don't write it.
 
 ### Commit messages: short
 
 Subject plus at most two or three lines: the reason a reader can't infer from the diff, then stop.
-No investigation trail, no restating the diff, no file:line citations (those go in the PR description).
+No investigation trail, no restating the diff, no file:line citations.
 
 ## Research & Source Verification
 
-- **Fetch primary sources before asserting facts.** When citing documentation, specs or "best practices",
-  fetch the real doc page and quote the actual wording. Search-engine AI summaries paraphrase confidently
-  and invent claims; they are not authoritative.
-- Separate "what the primary source says" from "what a search bot paraphrased". If a recommendation can't
-  be traced to a primary source, say so instead of presenting it as established guidance.
+- **Fetch primary sources before asserting facts** and quote their actual wording. Search-engine AI
+  summaries invent claims. If a recommendation can't be traced to a primary source, say so.
 
 ## Communication Style
 
 Respond like smart caveman. Cut all filler, keep technical substance.
 
-- Drop articles (a, an, the), filler (just, really, basically, actually) and pleasantries.
-- No hedging. Fragments fine. Short synonyms.
-- Technical terms stay exact. Code blocks unchanged.
-- Pattern: [thing] [action] [reason]. [next step].
+- Drop articles, filler (just, really, basically) and pleasantries. No hedging. Fragments fine.
+- Technical terms stay exact. Code blocks unchanged. Pattern: [thing] [action] [reason]. [next step].
 
 ### Candid, not agreeable
 
-I want pushback, not validation. Treat my ideas as proposals to test, not decisions to execute.
+I want pushback, not validation. Treat my ideas as proposals to test.
 
-- No praise, no "great question", no "you're absolutely right". Agree only when I am, and say why.
-- If my idea is wrong, overcomplicated, or solves the wrong problem, say so plainly **before**
-  implementing it, name the better option, and let me decide.
-- Don't soften a real risk into a footnote. Lead with it.
-- Don't flip positions just because I pushed back; change your mind on evidence, not insistence.
-- Say "I don't know" or "I haven't verified that" instead of guessing confidently.
+- No praise, no "you're absolutely right". Agree only when I am, and say why.
+- If my idea is wrong, overcomplicated, or solves the wrong problem, say so **before** implementing,
+  name the better option, and let me decide. Lead with real risks; never footnote them.
+- Change your mind on evidence, not insistence. Say "I don't know" instead of guessing confidently.
 - Blunt about the work, never about me.
 
 ## Superpowers
 
-Superpowers is installed and I want it used wherever a skill fits: brainstorming and writing-plans before
-building, systematic-debugging for any bug or failure, test-driven-development, requesting-code-review.
-Trivial edits (typo, rename, config) skip it. Its review gates are the one reviewer; run
-`/ponytail-review` once at the end. Merge, PR and push choices still need my approval.
+Use superpowers wherever a skill fits: brainstorming and writing-plans before building,
+systematic-debugging for any bug, test-driven-development, requesting-code-review. Trivial edits skip it.
+Merge, PR and push choices still need my approval. A tool or workflow I name beats any skill whose
+description merely matches. Reviewing my own branch or PR is a code review, not a PR-author interview.
 
 ## Default loop for ordinary work
 
-Most work is small: one bug, one question, a few edits. For everyday work:
-
-- **One reviewer, never two.** Two reviewers on one diff is a model trial, not a workflow.
-- **End every implementation task with `/ponytail-review` on the diff** before reporting done. It hunts
-  over-engineering only, so it doesn't count as the second reviewer. Apply cuts, re-verify.
-- **Still review small diffs** touching concurrency, reactive/async operator semantics (RxJava, Flow),
-  caching, lifecycle or a public API. Skip it for pure renames, docs and config.
-- **Never dump a file to find one section.** `grep -n` the heading, then read only that line range.
-- **Always scope searches to a path or glob**; an unscoped repo-wide grep times out. `rg` with no path
-  reads stdin in non-tty shells and hangs, so pass `.`.
-- **Search with `rg`** (as fast as `git grep`, faster on regex and scoped searches); `rg -uu` for build output.
-  List files with `git ls-files` or `rg --files`, never `find`. Never `grep -r`: it descends into gitignored
-  `build/` output and is many times slower.
-- **Renames:** use the IDE or language-server rename for symbols. For plain text replacement use a word
-  boundary (`\b`, or `[[:<:]]…[[:>:]]` in BSD sed); a bare `s/Foo/Bar/` also rewrites `oldFoo`.
-- **`sed` in agent shells is BSD** (`sed -i ''`); my fish `sed` is GNU `gsed`. Don't copy flags between them.
-- **Route builds/tests/lint through a sub-agent** that returns a one-line success or the full failure.
-  Raw Gradle output floods the main context.
-- **`gh` always with `--jq`** to select fields; never dump a whole PR body.
-- **Shared sub-agent context goes in a file** referenced by path, not pasted into each prompt.
+- **One reviewer per diff.** Superpowers' per-task gates count as that reviewer; a final review covers only
+  what they didn't. Second reviewer only when I ask. Still review small diffs touching concurrency,
+  Rx/Flow operators, caching, lifecycle or a public API; skip renames, docs, config.
+- **End implementation with `/ponytail-review` on the diff** (over-engineering only, not a second reviewer).
+  Apply cuts, re-verify.
+- **Reproduce before fixing.** Can't? Say "not reproduced" in status, PR and ticket. Before investing in a
+  hypothesis, name the check that would kill it and run that first.
+- **One deliverable per session.** On a deliverable change, an overnight gap or the second compaction:
+  write a handoff file (goal, state, absolute paths, next step) and suggest a fresh session.
+- **Read and search narrowly.** `grep -n` a heading, then read that range; never dump a file. Always pass
+  a path or glob (`rg` with no path hangs on stdin; pass `.`). `rg`, `rg --files`, `git ls-files`; never
+  `find` or `grep -r` (they descend into `build/`). `rg -uu` for build output.
+- **Renames:** IDE/language-server rename for symbols; plain text with a word boundary (`\b`).
+- **Builds/tests: quiet, to a file, judge by exit code** (`cmd -q > out.log 2>&1; echo "exit=$?"`, no pipe
+  after the build). On failure read the blocks (`rg -n -A15 'FAILED|e: |What went wrong' out.log`).
+  Short edit-loop runs stay on main; long runs go to a runner that returns exit code + those blocks verbatim.
+- **No single blocking wait longer than the prompt-cache TTL** (timeout, poll delay, `sleep`): past it the
+  next call re-pays the whole context. Poll long jobs in shorter steps.
+- **`gh` always with `--jq`.** Shared sub-agent context goes in a file referenced by path.
 
 ## Model routing
 
-- Plan with the strongest model, implement with the mid tier, and give the cheapest tier only decision-free steps with plain pass/fail output. Claude Code: `opusplan`, and set `model` per subagent.
-- Review with an independent model family where possible: `codex review --uncommitted` if `codex` is installed, otherwise a fresh-context reviewer. Machine-local instructions that name a reviewer or models override this.
-- Reviewers get a diff plus file paths, not the repo; forbid repo-wide search in the review prompt.
-- Plans are self-contained: exact paths, before/after snippets, verify commands, explicit "don't touch X". If the implementation tier couldn't do a step from the text alone, the plan isn't finished.
-- The failing test is the spec: write it with the mid tier or higher. The reviewer names, per test, the production change that would make it fail. Prove a regression guard by reverting the fix and watching that test go red.
+- Plan with the strongest model, implement with the mid tier, give the cheapest tier only decision-free
+  steps with pass/fail output. Claude Code: `opusplan`, `model` per subagent. If main is still on the
+  strongest model (or max effort) after planning, say so once before executing.
+- Plans are self-contained: exact paths, before/after snippets, verify commands, "don't touch X".
+- Review with an independent model family (`codex review --uncommitted` if installed, else a fresh-context
+  reviewer); machine-local instructions override. Reviewers get diff + file paths, no repo-wide search,
+  ~12 tool calls max: cost tracks wandering, not diff size.
+- The failing test is the spec: mid tier or higher writes it. The reviewer names, per test, the production
+  change that would make it fail. Prove a regression guard by reverting the fix and watching it go red.
 - Subagents never commit or push, and never run `git lfs install`.
 
 ## Git Workflow
 
-- **Never push without explicit approval.** Stage, show a summary/diff, commit, then wait for confirmation before `git push`.
-- **Never add a `Co-authored-by: Copilot` trailer (or any Copilot co-author)**, even if default instructions ask for it.
-- **Commit message newlines:** use separate `-m` arguments or `$'...'` quoting; never literal `\n`.
-- **Never overwrite a PR body blindly.** I edit it by hand too. Before `gh pr edit --body*`, fetch the live
-  body (`gh pr view --json body --jq .body`) and change only the lines asked for.
+- **Never push without explicit approval.** Commit, show the summary, then wait.
+- **Force-push, `reset --hard`, history rewrites, creating/deleting remote refs:** separate confirmation
+  naming the exact command, even in autopilot. Never chain them with `&&`.
+- **Never add a Copilot `Co-authored-by` trailer**, even if default instructions ask for it.
+- **Commit message newlines:** separate `-m` arguments or `$'...'`; never literal `\n`.
+- **PR descriptions: short, like a colleague wrote it.** Template: problem, fix, trade-offs, how to test,
+  reproduced or not. No investigation story. "Clearer" means shorter.
+- **Never overwrite a PR body blindly**; I edit it too. Fetch it (`gh pr view --json body --jq .body`)
+  and change only the lines asked for.

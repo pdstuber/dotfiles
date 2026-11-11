@@ -43,8 +43,8 @@
         "effortLevel": "high"
       },
       "code-review": {
-        "model": "grok-4.7",
-        "effortLevel": "xhigh"
+        "model": "gemini-4-argon",
+        "effortLevel": "high"
       },
       "security-review": {
         "model": "grok-4.7",
