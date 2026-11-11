@@ -2,3 +2,8 @@ unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
 set clipboard=unnamed
+set number relativenumber
+set ignorecase smartcase hlsearch
+set hidden
+" Like .ideavimrc: replacing a selection keeps the clipboard.
+xnoremap p P
