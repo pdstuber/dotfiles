@@ -41,9 +41,13 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-fable-5-2": {
       "effortLevel": "high"
     }
   },
   "theme": "dark-ansi",
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true
 }
