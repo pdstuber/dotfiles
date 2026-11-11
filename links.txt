@@ -11,6 +11,7 @@ config/starship/starship.toml -> ~/.config/starship.toml
 config/zed/keymap.json -> ~/.config/zed/keymap.json
 config/zed/settings.json -> ~/.config/zed/settings.json
 config/tmux/tmux.conf -> ~/.tmux.conf
+config/vim/vimrc -> ~/.vimrc
 config/androidstudio/.ideavimrc -> ~/.ideavimrc
 config/github/copilot-settings.json -> ~/.copilot/settings.json
 config/agents/AGENTS.md -> ~/.copilot/copilot-instructions.md
