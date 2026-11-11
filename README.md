@@ -40,4 +40,5 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 - `config/<tool>/`: the files; `links.txt` maps each to its target
 - `config/fonts/`: font source, copied by `dotfiles install`
 - `config/agents/AGENTS.md`: global instructions for Copilot CLI, Claude Code and Codex. For machine-specific instructions, add `local/agents/*.instructions.md` and set `COPILOT_CUSTOM_INSTRUCTIONS_DIRS` to that folder in `local/fish/conf.d/` (Copilot only). Example `local/agents/models.instructions.md` for a machine with fixed models: "Overrides the shared model routing: review with <model>, mechanical tool calls with <model>."
+- `config/claude/rules/`: Claude-only rules, linked into `~/.claude/rules/`. Claude runs only on the home Macs (Copilot at work), so home-only instructions go here, not in `AGENTS.md`.
 - `local/`: gitignored, per-machine (e.g. work proxy). `local/fish/conf.d/*.fish` is sourced, `local/fish/functions/` autoloads, `local/tools.txt` extends `tools.txt`

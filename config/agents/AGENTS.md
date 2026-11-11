@@ -84,10 +84,12 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
   `find` or `grep -r` (they descend into `build/`). `rg -uu` for build output.
 - **Renames:** IDE/language-server rename for symbols; plain text with a word boundary (`\b`).
 - **Builds/tests: quiet, to a file, judge by exit code** (`cmd -q > out.log 2>&1; echo "exit=$?"`, no pipe
-  after the build). On failure read the blocks (`rg -n -A15 'FAILED|e: |What went wrong' out.log`).
-  Short edit-loop runs stay on main; long runs go to a runner that returns exit code + those blocks verbatim.
-- **No single blocking wait longer than the prompt-cache TTL** (timeout, poll delay, `sleep`): past it the
-  next call re-pays the whole context. Poll long jobs in shorter steps.
+  after the build). On failure read the error blocks (Gradle: `rg -n -A15 'FAILED|e: |What went wrong' out.log`;
+  adapt the pattern per toolchain). Short edit-loop runs stay on main; long runs go to a runner that returns
+  exit code + those blocks verbatim.
+- **Long jobs: run in the background and wait for the completion notice** where the harness gives one.
+  Otherwise poll, keeping every single wait (timeout, poll delay, `sleep`) under the prompt-cache TTL: past
+  it the next call re-pays the whole context.
 - **`gh` always with `--jq`.** Shared sub-agent context goes in a file referenced by path.
 
 ## Model routing
@@ -96,9 +98,9 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
   steps with pass/fail output. Claude Code: `opusplan`, `model` per subagent. If main is still on the
   strongest model (or max effort) after planning, say so once before executing.
 - Plans are self-contained: exact paths, before/after snippets, verify commands, "don't touch X".
-- Review with an independent model family (`codex review --uncommitted` if installed, else a fresh-context
-  reviewer); machine-local instructions override. Reviewers get diff + file paths, no repo-wide search,
-  ~12 tool calls max: cost tracks wandering, not diff size.
+- Review with a fresh-context reviewer that hasn't seen the implementation: strongest model, or an independent
+  family where configured. Machine-local instructions override. Reviewers get diff + file paths, no repo-wide
+  search.
 - The failing test is the spec: mid tier or higher writes it. The reviewer names, per test, the production
   change that would make it fail. Prove a regression guard by reverting the fix and watching it go red.
 - Subagents never commit or push, and never run `git lfs install`.
@@ -107,7 +109,7 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
 
 - **Never push without explicit approval.** Commit, show the summary, then wait.
 - **Force-push, `reset --hard`, history rewrites, creating/deleting remote refs:** separate confirmation
-  naming the exact command, even in autopilot. Never chain them with `&&`.
+  naming the exact command, even in autopilot or auto mode. Never chain them with `&&`.
 - **Never add a Copilot `Co-authored-by` trailer**, even if default instructions ask for it.
 - **Commit message newlines:** separate `-m` arguments or `$'...'`; never literal `\n`.
 - **PR descriptions: short, like a colleague wrote it.** Template: problem, fix, trade-offs, how to test,
