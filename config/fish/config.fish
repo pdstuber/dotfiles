@@ -11,4 +11,6 @@ set -x LANG en_US.UTF-8
 
 type -q fzf_configure_bindings; and fzf_configure_bindings --directory=\ct
 
-type -q tide; or type -q starship; and starship init fish | source
+if not type -q tide; and type -q starship
+    starship init fish | source
+end
