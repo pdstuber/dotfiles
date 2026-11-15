@@ -8,6 +8,7 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 - `cat` is aliased to `bat`: pass `--paging=never` or pipe through `cat`.
 - No `timeout`/`gtimeout` (BSD userland). Run long commands in the background instead.
 - **In agent shells use `gsed -i`** (GNU, installed); plain `sed` there is BSD and `sed -i` fails.
+- **Agent shells may be zsh:** an unquoted `$VAR` holding several paths stays one word (no word splitting); use an array or write the paths out. Never `2>/dev/null` a command whose count you report: a failed search then reads as a confident 0.
 
 ### GitHub auth
 
