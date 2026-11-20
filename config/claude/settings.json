@@ -14,6 +14,7 @@
     ]
   },
   "model": "opus",
+  "outputStyle": "Concise",
   "skillOverrides": {
     "grill-me": "off",
     "find-skills": "user-invocable-only"
