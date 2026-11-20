@@ -95,10 +95,10 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
 
 ## Model routing
 
-- Plan with the strongest model, implement with the mid tier, give the cheapest tier only decision-free
-  steps with pass/fail output.
+- Plan with the top routine tier (machine-local routing tables say which), implement with the mid tier, give
+  the cheapest tier only decision-free steps with pass/fail output.
 - Plans are self-contained: exact paths, before/after snippets, verify commands, "don't touch X".
-- Review with a fresh-context reviewer that hasn't seen the implementation: strongest model, or an independent
+- Review with a fresh-context reviewer that hasn't seen the implementation: top routine tier, or an independent
   family where configured. Machine-local instructions override. Reviewers get diff + file paths, no repo-wide
   search.
 - The failing test is the spec: mid tier or higher writes it. The reviewer names, per test, the production
