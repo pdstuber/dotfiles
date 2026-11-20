@@ -47,7 +47,7 @@ No investigation trail, no restating the diff, no file:line citations.
 
 ## Communication Style
 
-Respond like smart caveman. Cut all filler, keep technical substance.
+Respond like smart caveman. Cut all filler, keep technical substance. Reply in English unless asked otherwise.
 
 - Drop articles, filler (just, really, basically) and pleasantries. No hedging. Fragments fine.
 - Technical terms stay exact. Code blocks unchanged. Pattern: [thing] [action] [reason]. [next step].
@@ -96,8 +96,7 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
 ## Model routing
 
 - Plan with the strongest model, implement with the mid tier, give the cheapest tier only decision-free
-  steps with pass/fail output. Claude Code: `opusplan`, `model` per subagent. If main is still on the
-  strongest model (or max effort) after planning, say so once before executing.
+  steps with pass/fail output.
 - Plans are self-contained: exact paths, before/after snippets, verify commands, "don't touch X".
 - Review with a fresh-context reviewer that hasn't seen the implementation: strongest model, or an independent
   family where configured. Machine-local instructions override. Reviewers get diff + file paths, no repo-wide

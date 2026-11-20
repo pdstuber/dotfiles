@@ -3,5 +3,7 @@ function claude-update
   for id in (claude plugin list --json | jq -r '.[].id')
     claude plugin update $id
   end
-  npx skills@latest update -g
+  if contains -- --skills $argv
+    npx skills@latest update -g
+  end
 end

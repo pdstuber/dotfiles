@@ -16,7 +16,7 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
    gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication -t "$(scutil --get ComputerName)"
    gh ssh-key add ~/.ssh/id_ed25519.pub --type signing -t "$(scutil --get ComputerName)"
    ```
-7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code, Codex and Copilot, trust ponytail's hooks in Codex (`/hooks`).
+7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code, Codex and Copilot, install the Grok and bunny CLIs and sign in, trust ponytail's hooks in Codex (`/hooks`). Wanted agent skills (`tools.txt` has no skill kind): `npx skills@latest add -g mattpocock/skills` (grilling) and `vercel-labs/skills` (find-skills); `claude-update --skills` refreshes them.
 8. Games (Xcode, Godot export templates, AVD: see the-last-hearth `spikes/README.md`; headless tests need only `godot`): clone `git@github.com:pdstuber/the-last-hearth.git` and `hells-verdict` into `~/projects`. Gitignored files to copy from the old Mac: `the-last-hearth/spikes/local.env`, `the-last-hearth/tools/paper-run/runs/`, and `~/.claude/projects/-Users-<you>-projects-*/memory/`.
 
 ## Daily

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "PONYTAIL_SUBAGENT_MATCHER": "^(general-purpose|engineer)$"
+  },
   "attribution": {
     "commit": "",
     "pr": "",
@@ -10,10 +13,15 @@
       "Bash(git push:*)"
     ]
   },
-  "model": "opusplan",
+  "model": "opus",
+  "skillOverrides": {
+    "grill-me": "off",
+    "find-skills": "user-invocable-only"
+  },
   "enabledPlugins": {
     "ponytail@ponytail": true,
-    "superpowers@superpowers-marketplace": true
+    "superpowers@superpowers-marketplace": true,
+    "pr-review-toolkit@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "ponytail": {
@@ -41,7 +49,7 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
-      "effortLevel": "xhigh"
+      "effortLevel": "high"
     },
     "claude-fable-5-2": {
       "effortLevel": "high"
@@ -49,5 +57,32 @@
   },
   "theme": "dark-ansi",
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Changing the live Fly.io apps wargrid-relay or wargrid-web (relay.pdstuber.dev, wargrid.pdstuber.dev) needs an explicit request that names the app: deploying, scaling, stopping, restarting or destroying apps or machines, and changing their secrets, tokens (fly tokens create/revoke), IPs, certs or volumes. Reading them through fly ssh console, fly proxy, fly secrets list, fly config show or fly logs (relay logs carry player IPs) needs the app named once; later read-only commands against that app are cleared for the session. Status and metadata reads (fly status, fly releases, fly machine list, fly apps list, fly checks list) are fine. The app comes from -a/--app, FLY_APP, --config, or else the fly.toml in the working directory; if unknown, treat it as production. The test app wargrid-web-test is exempt when the command visibly targets it (-a, FLY_APP, a --config file or a cwd fly.toml that names it).",
+      "Starting the release workflow (.github/workflows/release.yml in pdstuber/wargrid, which deploys both live apps) needs an explicit request that names the release or v* tag: pushing, deleting or moving a v* tag on the remote (including git push --tags, --follow-tags or --mirror), gh release create, or dispatching it (gh workflow run, gh api). A local git tag alone is fine. Committing or pushing any workflow change that adds a deploy step, references FLY_API_TOKEN_*, or adds a trigger that reaches one needs the same explicit request.",
+      "Printing, copying, committing or sending the contents of credential stores (~/.fly, ~/.ssh, ~/.config/gh/hosts.yml, .env files, .godot/export_credentials.cfg, *.keystore) or materializing tokens (fly auth token, flyctl auth token, gh auth token) needs an explicit request. Tools that read these files internally (godot exports, go run, fly and gh themselves) are fine.",
+      "Force-pushing over commits the agent did not make in this session needs the owner to name the branch."
+    ],
+    "environment": [
+      "$defaults",
+      "**Cloud provider(s)**: Fly.io (relay and web services, managed with the `fly` CLI)",
+      "**Repository visibility**: PUBLIC: pdstuber/wargrid, pdstuber/pdstuber.dev, pdstuber/dotfiles (github.com); any push there is publishing, and key material or secrets must never enter them or their history. PRIVATE: pdstuber/hells-verdict, pdstuber/the-last-hearth.",
+      "**Secrets management**: CI secrets FLY_API_TOKEN_RELAY, FLY_API_TOKEN_WEB (names only, no values held)",
+      "**Default / protected branches**: main is the default branch. gh reports no branch protection or rulesets for pdstuber/wargrid. Single maintainer: commits on non-main branches are the owner's or the agent's. Merges happen locally (git merge) after the owner approves; PR merges are rare and named by the owner",
+      "**CI/CD deploy targets**: Fly.io apps wargrid-relay and wargrid-web (production) and wargrid-web-test (test), via the `fly` CLI and FLY_API_TOKEN_* CI secrets. Only v* tags deploy (the release workflow); pushes to main run CI only",
+      "**Source control**: github.com/pdstuber: the repos wargrid, hells-verdict, the-last-hearth, pdstuber.dev and dotfiles and their origin remotes only (wargrid's worktrees ~/projects/wargrid-wt-* share wargrid's remote); any other org or repo is external",
+      "**Trusted internal domains**: wargrid.pdstuber.dev, relay.pdstuber.dev: Wargrid's own public game hosts, trusted for navigation and reads; not a destination for sensitive data and not a code source (never pipe a download from them into a shell)",
+      "**Key internal services**: wargrid-relay.fly.dev and wargrid-web.fly.dev (production), wargrid-web-test.fly.dev (test): Wargrid's own Fly.io deployments; internal does not mean safe to change",
+      "**Sensitive data locations & audiences**: ~/.fly (Fly.io auth tokens), ~/.ssh (SSH keys), ~/.config/gh/hosts.yml (GitHub token), .env files, Godot export credentials (.godot/export_credentials.cfg, *.keystore), relay logs with player IPs or ids, plus any other credential, key or personal-data store (default heuristic). Local tools reading them is normal work; their contents never leave the machine",
+      "**Primary use of Claude Code**: software development (Godot/GDScript games, Go relay, personal website, dotfiles). Building, testing and running godot, go, python and the repos' own tools/ scripts in these repos is the normal workflow",
+      "**Trusted repo**: whichever of these the session starts in, including its git worktrees: ~/projects/wargrid (and its worktrees ~/projects/wargrid-wt-*), ~/projects/hells-verdict, ~/projects/the-last-hearth, ~/projects/pdstuber.dev, ~/dotfiles. Only that repo's own work belongs in it; content ported from elsewhere is not cleared by a repo's visibility",
+      "**Org-specific CLIs**: godot (Godot engine CLI), fly (Fly.io CLI)",
+      "**Protected deployment namespaces / environments**: Fly.io apps wargrid-relay and wargrid-web (production: remote shells, proxies, secret or env reads and any change on them are sensitive). wargrid-web-test is the test app",
+      "**Sensitive remote targets**: the Fly.io apps wargrid-relay and wargrid-web, their machines and volumes (production)"
+    ]
+  },
+  "skipWorkflowUsageWarning": true
 }
