@@ -6,7 +6,7 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 
 - **Shell**: fish. **OS**: macOS (Apple Silicon).
 - `cat` is aliased to `bat`: pass `--paging=never` or pipe through `cat`.
-- No `timeout`/`gtimeout` (BSD userland). Run long commands in the background instead.
+- Don't rely on `timeout`/`gtimeout` (absent before macOS 27); run long commands in the background.
 - **In agent shells use `gsed -i`** (GNU, installed); plain `sed` there is BSD and `sed -i` fails.
 - **Agent shells may be zsh:** an unquoted `$VAR` holding several paths stays one word (no word splitting); use an array or write the paths out. Never `2>/dev/null` a command whose count you report: a failed search then reads as a confident 0.
 
@@ -108,6 +108,7 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
 ## Git Workflow
 
 - **Never push without explicit approval.** Commit, show the summary, then wait.
+- **"Not yet push"** holds only the `main` push; approved branch pushes and test deploys stay.
 - **Force-push, `reset --hard`, history rewrites, creating/deleting remote refs:** separate confirmation
   naming the exact command, even in autopilot or auto mode. Never chain them with `&&`.
 - **Never add a Copilot `Co-authored-by` trailer**, even if default instructions ask for it.

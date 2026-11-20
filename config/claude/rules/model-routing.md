@@ -19,3 +19,7 @@ to an Opus high agent.
 | Closure check; synthesis of many results | Opus | medium |
 | Final (gate) review of a branch | Grok 4.7 plus an Opus whole-branch pass; Opus alone if Grok is missing or fails | high |
 | Adversarial verify, judging between options, contested design call (a few calls, never a whole stage) | Fable | high or xhigh |
+
+Fable outside the table only when the owner asks; on a Fable main session keep decisions there and hand building and
+fact-finding to Sonnet or Opus agents. Independent-family reviewers (Grok, Codex): recipes in the project's private
+handoffs (Wargrid memories `grok-final-reviews`, `codex-worker`); Opus when the CLI is missing or failing.

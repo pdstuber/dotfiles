@@ -16,3 +16,6 @@
 .config/kitty/themes
 .config/kitty/*.bak
 *.DS_Store
+.config/bunnynet.json
+.config/neon
+.config/wowup
