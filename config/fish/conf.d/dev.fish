@@ -9,5 +9,6 @@ fish_add_path $HOME/.cargo/bin
 fish_add_path $HOME/.grok/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.bunny/bin
+fish_add_path /opt/homebrew/opt/libpq/bin
 
 type -q fnm; and fnm env --use-on-cd --shell fish | source
