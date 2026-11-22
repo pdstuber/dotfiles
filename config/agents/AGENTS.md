@@ -65,22 +65,22 @@ I want pushback, not validation. Treat my ideas as proposals to test.
 - Change your mind on evidence, not insistence. Say "I don't know" instead of guessing confidently.
 - Blunt about the work, never about me.
 
-## Superpowers
+## Default loop
 
-Use superpowers wherever a skill fits: brainstorming and writing-plans before building,
-systematic-debugging for any bug, test-driven-development, requesting-code-review. Trivial edits skip it.
-Merge, PR and push choices still need my approval. A tool or workflow I name beats any skill whose
-description merely matches. Reviewing my own branch or PR is a code review, not a PR-author interview.
-
-## Default loop for ordinary work
-
-- **One reviewer per diff.** Superpowers' per-task gates count as that reviewer; a final review covers only
-  what they didn't. Second reviewer only when I ask. Still review small diffs touching concurrency,
-  Rx/Flow operators, caching, lifecycle or a public API; skip renames, docs, config.
-- **End implementation with `/ponytail-review` on the diff** (over-engineering only, not a second reviewer).
-  Apply cuts, re-verify.
+- **Shortest loop first.** Put the smallest working version in front of me before measuring or polishing it.
+  Measure what I saw, not what is easy to measure.
+- **Decide details yourself and report them.** Ask me for taste, scope and approvals; list the rest as
+  "Decided for you", reversible on my word.
+- **Skills:** systematic-debugging for a bug, test-driven-development for logic. Brainstorming and
+  writing-plans only for work larger than a day or when I ask; otherwise a one-page note. A tool or
+  workflow I name beats any skill. Trivial edits skip all of it.
+- **One reviewer per branch,** fresh context, at the end. Review a small diff on its own only when it
+  touches concurrency, Rx/Flow operators, caching, lifecycle or a public API; skip renames, docs, config.
+  More reviewers only when I ask.
+- **End implementation with `/ponytail-review` on the diff** (over-engineering only). Apply cuts, re-verify.
 - **Reproduce before fixing.** Can't? Say "not reproduced" in status, PR and ticket. Before investing in a
-  hypothesis, name the check that would kill it and run that first.
+  hypothesis, name the check that would kill it and run that first: minutes, and existing data before any
+  new run.
 - **One deliverable per session.** On a deliverable change, an overnight gap or the second compaction:
   write a handoff file (goal, state, absolute paths, next step) and suggest a fresh session.
 - **Read and search narrowly.** `grep -n` a heading, then read that range; never dump a file. Always pass
@@ -89,23 +89,16 @@ description merely matches. Reviewing my own branch or PR is a code review, not 
 - **Renames:** IDE/language-server rename for symbols; plain text with a word boundary (`\b`).
 - **Builds/tests: quiet, to a file, judge by exit code** (`cmd -q > out.log 2>&1; echo "exit=$?"`, no pipe
   after the build). On failure read the error blocks (Gradle: `rg -n -A15 'FAILED|e: |What went wrong' out.log`;
-  adapt the pattern per toolchain). Short edit-loop runs stay on main; long runs go to a runner that returns
-  exit code + those blocks verbatim.
+  adapt the pattern per toolchain).
 - **Long jobs: run in the background and wait for the completion notice** where the harness gives one.
-  Otherwise poll, keeping every single wait (timeout, poll delay, `sleep`) under the prompt-cache TTL: past
-  it the next call re-pays the whole context.
+  Otherwise poll, keeping every single wait under the prompt-cache TTL.
 - **`gh` always with `--jq`.** Shared sub-agent context goes in a file referenced by path.
 
-## Model routing
+## Models
 
-- Plan with the top routine tier (machine-local routing tables say which), implement with the mid tier, give
-  the cheapest tier only decision-free steps with pass/fail output.
-- Plans are self-contained: exact paths, before/after snippets, verify commands, "don't touch X".
-- Review with a fresh-context reviewer that hasn't seen the implementation: top routine tier, or an independent
-  family where configured. Machine-local instructions override. Reviewers get diff + file paths, no repo-wide
-  search.
-- The failing test is the spec: mid tier or higher writes it. The reviewer names, per test, the production
-  change that would make it fail. Prove a regression guard by reverting the fix and watching it go red.
+- The mid tier builds. The top routine tier writes plans and reviews the branch once. The cheapest tier
+  gets decision-free steps with pass/fail output. Anything heavier only when I ask.
+- The failing test is the spec. Prove a regression guard by reverting the fix and watching it go red.
 - Subagents never commit or push, and never run `git lfs install`.
 
 ## Git Workflow
