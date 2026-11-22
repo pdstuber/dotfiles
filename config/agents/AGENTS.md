@@ -51,11 +51,14 @@ Short. Lead with the result or the question for me. Reply in English unless aske
 
 - Don't narrate steps the tool calls already show. No filler, pleasantries or hedging.
 - Technical terms stay exact. Code blocks unchanged.
-- **If a reply needs something from me, its first line says so.** Mention an open item once, when it comes
-  up; never repeat it in later replies.
+- **If a reply needs something from me, its first line says so,** as a block quote with a bold label:
+  `> **Needs you:** …`. Mention an open item once, when it comes up; never repeat it in later replies.
+- **When several things need my decision, route me through them as selector rounds,** one easy question at
+  a time with a recommendation, not as a block of text.
 - A reply longer than about 15 lines ends with one `Needs you:` line listing only the asks new in that reply.
   Shorter replies have no footer.
 - When I ask "what's open?", list every open item.
+- When a side task ends, say in one sentence what the main thread was and what it is waiting for.
 
 ### Candid, not agreeable
 
