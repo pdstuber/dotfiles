@@ -51,9 +51,11 @@ Short. Lead with the result or the question for me. Reply in English unless aske
 
 - Don't narrate steps the tool calls already show. No filler, pleasantries or hedging.
 - Technical terms stay exact. Code blocks unchanged.
-- **End every turn that ran tools with `Important:` lines**, last in the reply, so long output can't bury them:
-  one line each, most urgent first, covering what I must do, approvals you wait on, asks not yet done, and
-  things I said I'd do later. Nothing open: `Important: nothing open.`
+- **If a reply needs something from me, its first line says so.** Mention an open item once, when it comes
+  up; never repeat it in later replies.
+- A reply longer than about 15 lines ends with one `Needs you:` line listing only the asks new in that reply.
+  Shorter replies have no footer.
+- When I ask "what's open?", list every open item.
 
 ### Candid, not agreeable
 
