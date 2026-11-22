@@ -1,6 +1,6 @@
 # Claude model routing
 
-Claude Code routing (Copilot and Codex do not read this file; Grok loads it through its Claude compatibility and may ignore it). It refines the shared "Model routing" section.
+Claude Code routing (Copilot, Codex and Antigravity do not read this file). It refines the shared "Model routing" section.
 
 Pin `model` and `effort` on every workflow stage and subagent, so the fleet never inherits the session's
 model by accident; put the mix in the workflow description. Route by how hard the stage's judgment is,
@@ -17,9 +17,9 @@ to an Opus high agent.
 | Implement a plan task | Sonnet | high |
 | Write a plan, spec or design; fix round; correctness review | Opus | high |
 | Closure check; synthesis of many results | Opus | medium |
-| Final (gate) review of a branch | Grok 4.7 plus an Opus whole-branch pass; Opus alone if Grok is missing or fails | high |
+| Final (gate) review of a branch | Gemini 4 Neon high (agy) plus an Opus whole-branch pass; Opus alone if agy is missing or fails | high |
 | Adversarial verify, judging between options, contested design call (a few calls, never a whole stage) | Fable | high or xhigh |
 
 Fable outside the table only when the owner asks; on a Fable main session keep decisions there and hand building and
-fact-finding to Sonnet or Opus agents. Independent-family reviewers (Grok, Codex): recipes in the project's private
-handoffs (Wargrid memories `grok-final-reviews`, `codex-worker`); Opus when the CLI is missing or failing.
+fact-finding to Sonnet or Opus agents. Independent-family reviewers (Gemini via agy, Codex): recipes in the project's private
+handoffs (Wargrid memories `second-family-reviewers`, `codex-worker`); Opus when the CLI is missing or failing.

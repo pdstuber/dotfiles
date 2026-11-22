@@ -47,10 +47,13 @@ No investigation trail, no restating the diff, no file:line citations.
 
 ## Communication Style
 
-Respond like smart caveman. Cut all filler, keep technical substance. Reply in English unless asked otherwise.
+Short. Lead with the result or the question for me. Reply in English unless asked otherwise.
 
-- Drop articles, filler (just, really, basically) and pleasantries. No hedging. Fragments fine.
-- Technical terms stay exact. Code blocks unchanged. Pattern: [thing] [action] [reason]. [next step].
+- Don't narrate steps the tool calls already show. No filler, pleasantries or hedging.
+- Technical terms stay exact. Code blocks unchanged.
+- **End every turn that ran tools with `Important:` lines**, last in the reply, so long output can't bury them:
+  one line each, most urgent first, covering what I must do, approvals you wait on, asks not yet done, and
+  things I said I'd do later. Nothing open: `Important: nothing open.`
 
 ### Candid, not agreeable
 
