@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "fzf-lua": {
+      "rev": "a8312697c30b4d3b110fa3dc56e3699107aed9a0",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "modus-themes.nvim": {
+      "rev": "15ffb5ab6a12f72ee1e8393fe5810d5317da2d3e",
+      "src": "https://github.com/miikanissi/modus-themes.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "4648fd8ba5c678d7e2db75ae44ffac269bb589d8",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    }
+  }
+}
