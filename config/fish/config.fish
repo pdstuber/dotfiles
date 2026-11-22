@@ -16,3 +16,6 @@ type -q fzf_configure_bindings; and fzf_configure_bindings --directory=\ct
 if not type -q tide; and type -q starship
     starship init fish | source
 end
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/pdstuber/.local/bin" $PATH

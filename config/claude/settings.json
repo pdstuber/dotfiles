@@ -14,7 +14,6 @@
     ]
   },
   "model": "opus",
-  "outputStyle": "Concise",
   "skillOverrides": {
     "grill-me": "off",
     "find-skills": "user-invocable-only"
@@ -44,6 +43,7 @@
       }
     }
   },
+  "outputStyle": "Concise",
   "effortLevel": "high",
   "modelSettings": {
     "claude-sonnet-5-5": {
@@ -56,6 +56,7 @@
       "effortLevel": "high"
     }
   },
+  "skipWorkflowUsageWarning": true,
   "theme": "auto",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
@@ -84,6 +85,5 @@
       "**Protected deployment namespaces / environments**: Fly.io apps wargrid-relay and wargrid-web (production: remote shells, proxies, secret or env reads and any change on them are sensitive). wargrid-web-test is the test app",
       "**Sensitive remote targets**: the Fly.io apps wargrid-relay and wargrid-web, their machines and volumes (production)"
     ]
-  },
-  "skipWorkflowUsageWarning": true
+  }
 }
