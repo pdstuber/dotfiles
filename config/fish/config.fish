@@ -9,7 +9,7 @@ set -gx VISUAL nvim
 set -gx EDITOR "$VISUAL"
 set -x LANG en_US.UTF-8
 
-abbr -a vim nvim
+alias vim nvim
 
 type -q fzf_configure_bindings; and fzf_configure_bindings --directory=\ct
 
