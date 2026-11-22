@@ -56,7 +56,7 @@
       "effortLevel": "high"
     }
   },
-  "theme": "dark-ansi",
+  "theme": "auto",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
