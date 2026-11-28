@@ -1,6 +1,6 @@
 # Agent instructions
 
-Personal preferences shared across machines and agents (Copilot CLI, Claude Code, Codex).
+Personal preferences for the home Macs: Claude Code (main), Codex and Antigravity.
 
 ## Developer Environment
 
@@ -12,15 +12,14 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 
 ### GitHub auth
 
-- **Never set `GITHUB_TOKEN` / `GH_TOKEN` in the shell.** `gh` and Copilot CLI both let them override
-  their keyrings, so a stale one silently breaks both (`401 Bad credentials`, no login prompt).
+- **Never set `GITHUB_TOKEN` / `GH_TOKEN` in the shell.** `gh` lets them override its keyring,
+  so a stale one silently breaks it (`401 Bad credentials`, no login prompt).
 - **Never echo a token to check it** (`${VAR:-NO}` prints it). Test with
   `curl -o /dev/null -w '%{http_code}'`; print only length/prefix.
 
 ## Local Resource Use
 
-- **Keep heavy Gradle runs responsive:** `--max-workers=4 --priority=low`, and lower task fork settings
-  when exposed (e.g. `-Proborazzi.maxParallelForks=2`). Don't alter another agent's running task unasked.
+- Don't alter another agent's running task unasked.
 
 ## Code Style Preferences
 
@@ -30,9 +29,9 @@ Personal preferences shared across machines and agents (Copilot CLI, Claude Code
 
 - Comment only the WHY, never the WHAT. One line. If it needs more, rename or split the code instead.
   - WRONG: `// Read the flag from local.properties, defaulting to false`
-  - RIGHT: `// Off by default so it never ships in test-vehicle builds.`
+  - RIGHT: `// Off by default so it never ships in release builds.`
 - No diff narration (`// Added X`); that's the commit message's job. Exception: `// formerly in [FileName]`.
-- No KDoc on self-explanatory members, no section-header comments, no Given/When/Then in short tests.
+- No doc comments on self-explanatory members, no section-header comments, no Given/When/Then in short tests.
 - Don't add comments to lines you weren't asked to change. If I'd delete it in review, don't write it.
 
 ### Commit messages: short
@@ -93,7 +92,7 @@ I want pushback, not validation. Treat my ideas as proposals to test.
   `find` or `grep -r` (they descend into `build/`). `rg -uu` for build output.
 - **Renames:** IDE/language-server rename for symbols; plain text with a word boundary (`\b`).
 - **Builds/tests: quiet, to a file, judge by exit code** (`cmd -q > out.log 2>&1; echo "exit=$?"`, no pipe
-  after the build). On failure read the error blocks (Gradle: `rg -n -A15 'FAILED|e: |What went wrong' out.log`;
+  after the build). On failure read the error blocks (`rg -n -A15 'error|FAILED' out.log`;
   adapt the pattern per toolchain).
 - **Long jobs: run in the background and wait for the completion notice** where the harness gives one.
   Otherwise poll, keeping every single wait under the prompt-cache TTL.
@@ -112,7 +111,6 @@ I want pushback, not validation. Treat my ideas as proposals to test.
 - **"Not yet push"** holds only the `main` push; approved branch pushes and test deploys stay.
 - **Force-push, `reset --hard`, history rewrites, creating/deleting remote refs:** separate confirmation
   naming the exact command, even in autopilot or auto mode. Never chain them with `&&`.
-- **Never add a Copilot `Co-authored-by` trailer**, even if default instructions ask for it.
 - **Commit message newlines:** separate `-m` arguments or `$'...'`; never literal `\n`.
 - **PR descriptions: short, like a colleague wrote it.** Template: problem, fix, trade-offs, how to test,
   reproduced or not. No investigation story. "Clearer" means shorter.

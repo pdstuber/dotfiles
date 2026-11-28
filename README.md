@@ -16,14 +16,14 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
    gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication -t "$(scutil --get ComputerName)"
    gh ssh-key add ~/.ssh/id_ed25519.pub --type signing -t "$(scutil --get ComputerName)"
    ```
-7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code, Codex and Copilot, install the Grok and bunny CLIs and sign in, trust ponytail's hooks in Codex (`/hooks`). Wanted agent skills (`tools.txt` has no skill kind): `npx skills@latest add -g mattpocock/skills` (grilling) and `vercel-labs/skills` (find-skills); `claude-update --skills` refreshes them.
+7. By hand: Temurin 21 (adoptium.net installer; `sdkmanager` needs it), Android SDK via `sdkmanager` (root `/opt/homebrew/share/android-commandlinetools`; point Godot's `android_sdk_path` there; steps in the-last-hearth `spikes/README.md`), launch-at-login for Stats and Caffeine, sign in to Claude Code and Codex, install the Grok and bunny CLIs and sign in, trust ponytail's hooks in Codex (`/hooks`). Wanted agent skills (`tools.txt` has no skill kind): `npx skills@latest add -g mattpocock/skills` (grilling) and `vercel-labs/skills` (find-skills); `claude-update --skills` refreshes them.
 8. Games (Xcode, Godot export templates, AVD: see the-last-hearth `spikes/README.md`; headless tests need only `godot`): clone `git@github.com:pdstuber/the-last-hearth.git`, `hells-verdict`, `wargrid` and `wargrid-private` (private notes) into `~/projects`. Gitignored files to copy from the old Mac: `the-last-hearth/spikes/local.env`, `the-last-hearth/tools/paper-run/runs/`, and `~/.claude/projects/-Users-<you>-projects-*/memory/`.
 
 ## Daily
 
 - Edit files in `~`; the change lands in the repo. Commit with `git -C ~/dotfiles`.
 - New config: `dotfiles adopt <path> config/<tool>/<file>` moves it into the repo and adds the `links.txt` line.
-- An app replaced a link with a real file (gh, Copilot CLI do this): `dotfiles adopt <path>` keeps the app's version in the repo; review it with `git diff`.
+- An app replaced a link with a real file (gh does this): `dotfiles adopt <path>` keeps the app's version in the repo; review it with `git diff`.
 - `dotfiles link` never overwrites a real file; it reports a conflict instead.
 - Package: add to `Brewfile` (brew/cask) or `tools.txt` (`kind name [source]`: uv, cargo, rustup, node, fisher, copilot-plugin, claude-plugin, codex-plugin; plugin source is the marketplace repo, skipped when that CLI is absent). Machine-specific apps can stay manually installed.
 - Fish plugin: `fisher install <repo>` installs to `~/.local/share/fisher` (not the repo) and records it in `config/fish/fish_plugins`; commit that file. Tide: base preset is the `tide configure --auto` line in `dotfiles.bash`; personal tweaks go in `config/fish/conf.d/tide.fish`.
@@ -39,6 +39,6 @@ Plain symlinks, driven by `links.txt` and one bash script, `dotfiles.bash` (link
 
 - `config/<tool>/`: the files; `links.txt` maps each to its target
 - `config/fonts/`: font source, copied by `dotfiles install`
-- `config/agents/AGENTS.md`: global instructions for Copilot CLI, Claude Code and Codex. For machine-specific instructions, add `local/agents/*.instructions.md` and set `COPILOT_CUSTOM_INSTRUCTIONS_DIRS` to that folder in `local/fish/conf.d/` (Copilot only). Example `local/agents/models.instructions.md` for a machine with fixed models: "Overrides the shared model routing: review with <model>, mechanical tool calls with <model>."
-- `config/claude/rules/`: Claude-only rules, linked into `~/.claude/rules/`. Claude runs only on the home Macs (Copilot at work), so home-only instructions go here, not in `AGENTS.md`.
-- `local/`: gitignored, per-machine (e.g. work proxy). `local/fish/conf.d/*.fish` is sourced, `local/fish/functions/` autoloads, `local/tools.txt` extends `tools.txt`
+- `config/agents/AGENTS.md`: agent instructions for the home Macs (Claude Code, Codex). The work Mac's Copilot config lives in its own private repo in `local/`.
+- `config/claude/rules/`: Claude-only rules, linked into `~/.claude/rules/`.
+- `local/`: gitignored, per-machine; on the work Mac a clone of a private repo. `local/fish/conf.d/*.fish` is sourced, `local/fish/functions/` autoloads, `local/links.txt`, `local/Brewfile` and `local/tools.txt` extend the root files. Never reference `local/` contents from tracked files: this repo is public.

@@ -104,6 +104,15 @@ mkdir -p "$DOTFILES/local"; echo 'uv localtool' > "$DOTFILES/local/tools.txt"
 run check; expect_rc 1; has "missing tool: uv localtool"
 rm -r "$DOTFILES/local"; baseline
 
+case_ "local/links.txt and local/Brewfile are used too"
+mkdir -p "$DOTFILES/local/w"; echo w > "$DOTFILES/local/w/w.txt"
+echo 'local/w/w.txt -> ~/.work/w.txt' > "$DOTFILES/local/links.txt"; echo 'cask "w"' > "$DOTFILES/local/Brewfile"
+: > "$tmp/brew.log"; run link; expect_rc 0
+is_link_to "$HOME/.work/w.txt" "$DOTFILES/local/w/w.txt" || fail "local link"
+run check; expect_rc 0
+grep -q "local/Brewfile" "$tmp/brew.log" || fail "local Brewfile not checked"
+rm -r "$DOTFILES/local" "$HOME/.work"; baseline
+
 case_ "fisher plugin drift is flagged, order-insensitive"
 mkdir -p "$DOTFILES/config/fish"; printf 'a/one\nb/two\n' > "$DOTFILES/config/fish/fish_plugins"
 echo 'fisher config/fish/fish_plugins' > "$DOTFILES/tools.txt"; commit

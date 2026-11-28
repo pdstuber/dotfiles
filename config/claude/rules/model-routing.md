@@ -1,6 +1,6 @@
 # Claude model routing
 
-Claude Code routing (Copilot, Codex and Antigravity do not read this file). It refines the shared "Models" section.
+Claude Code routing (Codex and Antigravity do not read this file). It refines the shared "Models" section.
 
 Pin `model` and `effort` on every subagent and workflow stage. Explicit asks and project files override.
 

@@ -26,11 +26,17 @@ parse() {
 
 # Calls "$@" once per mapping; parse results are in OPT/SRC/S/T.
 each_link() {
-  local line
-  while IFS= read -r line || [ -n "$line" ]; do
-    parse "$line" && "$@"
-  done < "$LINKS"
+  local line f
+  for f in "$LINKS" "$REPO/local/links.txt"; do
+    [ -f "$f" ] || continue
+    while IFS= read -r line || [ -n "$line" ]; do
+      parse "$line" && "$@"
+    done < "$f"
+  done
 }
+
+BREWFILES=("$REPO/Brewfile")
+[ -f "$REPO/local/Brewfile" ] && BREWFILES+=("$REPO/local/Brewfile")
 
 exists() { [ -e "$1" ] || [ -L "$1" ]; }
 
@@ -126,8 +132,11 @@ have_brew() {
 
 cmd_install() {
   if have_brew; then
-    brew bundle check --file "$REPO/Brewfile" >/dev/null 2>&1 ||
-      brew bundle install --file "$REPO/Brewfile" --no-upgrade || err "brew bundle"
+    local f
+    for f in "${BREWFILES[@]}"; do
+      brew bundle check --file "$f" >/dev/null 2>&1 ||
+        brew bundle install --file "$f" --no-upgrade || err "brew bundle $f"
+    done
   else
     err "brew not found (https://brew.sh)"
   fi
@@ -225,7 +234,8 @@ check_unmanaged() {
 
 check_brew() {
   if ! have_brew; then drift "brew not found"; return; fi
-  brew bundle check --file "$REPO/Brewfile" --verbose || rc=1
+  local f
+  for f in "${BREWFILES[@]}"; do brew bundle check --file "$f" --verbose || rc=1; done
 }
 
 check_vscode() {
