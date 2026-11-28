@@ -21,6 +21,7 @@
   "ui_font_family": "Public Sans",
   "ui_font_size": 16,
   "vim_mode": true,
+  // Trying Rec Mono Duotone; to go back: "MonoLisa".
   "buffer_font_family": "MonoLisa",
   "buffer_font_size": 14,
   "buffer_font_features": {
@@ -33,12 +34,92 @@
     "fish": true,
     "html": true,
     "kanagawa-themes": true,
+    "modus-themes": true,
     "tokyo-night": true,
     "toml": true
   },
   "theme": {
-    "mode": "dark",
-    "light": "One Light",
-    "dark": "Kanagawa Wave"
+    "mode": "system",
+    "light": "Modus Operandi Tinted",
+    "dark": "Modus Vivendi Tinted"
+  },
+  // Same cream as kitty's dark theme instead of pure white: less glare at night.
+  "theme_overrides": {
+    "Modus Vivendi Tinted": {
+      "syntax": {
+        "none": {
+          "color": "#d3c6aa"
+        },
+        "number": {
+          "color": "#d3c6aa"
+        },
+        "primary": {
+          "color": "#d3c6aa"
+        },
+        "punctuation": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.bracket": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.bracket.html": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.bracket.jsx": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.bracket.regex": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.delimiter": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.delimiter.html": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.delimiter.jsx": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.delimiter.regex": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.embedded.markup": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.list_marker": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.list_marker.markup": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.markup": {
+          "color": "#d3c6aa"
+        },
+        "punctuation.special": {
+          "color": "#d3c6aa"
+        },
+        "text": {
+          "color": "#d3c6aa"
+        },
+        "text.jsx": {
+          "color": "#d3c6aa"
+        }
+      },
+      "editor.active_line_number": "#e6dcc6",
+      "editor.active_wrap_guide": "#e6dcc6",
+      "editor.foreground": "#d3c6aa",
+      "editor.hover_line_number": "#e6dcc6",
+      "editor.indent_guide_active": "#e6dcc6",
+      "icon": "#e6dcc6",
+      "panel.indent_guide_active": "#e6dcc6",
+      "panel.indent_guide_hover": "#e6dcc6",
+      "terminal.ansi.bright_white": "#e6dcc6",
+      "terminal.foreground": "#d3c6aa",
+      "text": "#d3c6aa",
+      "vim.helix_select.foreground": "#e6dcc6",
+      "vim.visual.foreground": "#e6dcc6",
+      "vim.visual_block.foreground": "#e6dcc6",
+      "vim.visual_line.foreground": "#e6dcc6"
+    }
   }
 }

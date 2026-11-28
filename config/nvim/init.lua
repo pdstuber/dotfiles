@@ -20,6 +20,16 @@ vim.pack.add({
 })
 
 -- Follows 'background', which Neovim reads from the terminal, so it tracks kitty's light/dark switch.
+require('modus-themes').setup({
+  variants = { modus_operandi = 'tinted', modus_vivendi = 'tinted' },
+  -- Everforest's cream instead of pure white: less glare at night.
+  on_colors = function(c)
+    if vim.o.background == 'dark' then
+      c.fg_main = '#d3c6aa'
+      c.fg_sidebar = c.fg_main
+    end
+  end,
+})
 vim.cmd.colorscheme('modus')
 -- shortcut: re-asks kitty for its background only on focus; an nvim focused at the macOS switch flips on the next focus.
 vim.api.nvim_create_autocmd('FocusGained', {
