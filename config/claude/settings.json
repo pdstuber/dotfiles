@@ -21,7 +21,9 @@
   "enabledPlugins": {
     "ponytail@ponytail": true,
     "superpowers@superpowers-marketplace": true,
-    "pr-review-toolkit@claude-plugins-official": true
+    "pr-review-toolkit@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "ponytail": {
@@ -50,7 +52,7 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "medium"
     },
     "claude-fable-5-2": {
       "effortLevel": "high"
