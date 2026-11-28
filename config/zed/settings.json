@@ -21,7 +21,6 @@
   "ui_font_family": "Public Sans",
   "ui_font_size": 16,
   "vim_mode": true,
-  // Trying Rec Mono Duotone; to go back: "MonoLisa".
   "buffer_font_family": "MonoLisa",
   "buffer_font_size": 14,
   "buffer_font_features": {
