@@ -75,6 +75,7 @@ tool_have() {
     cargo) cargo install --list 2>/dev/null | grep -q "^$2 " ;;
     rustup) rustup toolchain list 2>/dev/null | grep -q "^$2" ;;
     node) fnm list 2>/dev/null | grep -q "v$2 default" ;;
+    npm) fnm exec --using default npm ls -g "$2" >/dev/null 2>&1 ;;
     fisher) [ "$(fish -c 'fisher list' 2>/dev/null | sort)" = "$(grep . "$REPO/$2" | sort)" ] ;;
     # A plugin for an agent CLI this machine doesn't have counts as present.
     copilot-plugin|claude-plugin|codex-plugin) command -v "${1%-plugin}" >/dev/null || return 0
@@ -89,6 +90,7 @@ tool_install() {
     cargo) if [ -n "$3" ]; then cargo install --path "$3"; else cargo install "$2"; fi ;;
     rustup) rustup toolchain install "$2" ;;
     node) fnm install "$2" && fnm default "$2" ;;
+    npm) fnm exec --using default npm install -g "$2" ;;
     fisher) fish -c 'type -q fisher; or curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher update' &&
       fish -c "type -q tide; or exit 0; tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Compact --icons='Few icons' --transient=Yes" ;;
     copilot-plugin|claude-plugin) "${1%-plugin}" plugin marketplace add "$3" >/dev/null 2>&1

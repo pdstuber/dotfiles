@@ -1,5 +1,6 @@
 rustup stable
 node 24.19.0
+npm @bunny.net/cli
 fisher config/fish/fish_plugins
 copilot-plugin ponytail@ponytail DietrichGebert/ponytail
 copilot-plugin superpowers@superpowers-marketplace obra/superpowers-marketplace
