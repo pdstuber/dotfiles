@@ -24,3 +24,4 @@ config/vscode/settings.json -> ~/Library/Application Support/Code/User/settings.
 config/vscode/keybindings.json -> ~/Library/Application Support/Code/User/keybindings.json
 dotfiles.bash -> ~/.local/bin/dotfiles
 config/git/config -> ~/.gitconfig
+config/git/ignore -> ~/.config/git/ignore

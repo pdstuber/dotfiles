@@ -19,3 +19,7 @@
 .config/bunnynet.json
 .config/neon
 .config/wowup
+.config/aiven
+.config/wargrid
+.config/dispatch
+.config/configstore
